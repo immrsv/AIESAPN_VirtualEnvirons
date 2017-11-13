@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VR;
 using VRStandardAssets.Utils;
@@ -40,7 +41,7 @@ namespace VRStandardAssets.ShootingGallery
             //// Smoothly interpolate this gameobject's rotation towards that of the user/camera.
             //transform.rotation = Quaternion.Slerp(transform.rotation, UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head),
             //    m_Damping * (1 - Mathf.Exp(k_DampingCoef * Time.deltaTime)));
-            
+
 
             //// Move this gameobject to the camera.
             //transform.position = m_CameraTransform.position;
@@ -51,6 +52,22 @@ namespace VRStandardAssets.ShootingGallery
             //// Smoothly interpolate the gun's rotation towards that rotation.
             //m_GunContainer.rotation = Quaternion.Slerp (m_GunContainer.rotation, lookAtRotation,
             //    m_GunContainerSmoothing * Time.deltaTime);
+
+            List<UnityEngine.XR.XRNodeState> nodes = new List<UnityEngine.XR.XRNodeState>();
+            UnityEngine.XR.InputTracking.GetNodeStates(nodes);
+
+            var sb = new System.Text.StringBuilder();
+            Vector3 temp = new Vector3();
+
+            foreach (var node in nodes)
+            {
+                if (node.TryGetPosition(out temp))
+                    sb.AppendLine("Node: " + node.nodeType + " [Tracked:" + node.tracked + "] @ " + temp);
+                else
+                    sb.AppendLine("Node: " + node.nodeType + " [Tracked:" + node.tracked + "] @ " + "{unknown}");
+            }
+
+            Debug.Log(sb.ToString());
         }
 
 
