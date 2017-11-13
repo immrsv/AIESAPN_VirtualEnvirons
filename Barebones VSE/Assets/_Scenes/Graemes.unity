@@ -271,9 +271,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DefaultLineLength: 70
-  m_EyeRaycaster: {fileID: 0}
-  m_VRInput: {fileID: 0}
-  m_CameraTransform: {fileID: 0}
+  m_EyeRaycaster: {fileID: 1911511477}
+  m_VRInput: {fileID: 1911511476}
+  m_CameraTransform: {fileID: 1911511482}
   m_GunContainer: {fileID: 0}
   m_GunEnd: {fileID: 0}
   m_GunFlare: {fileID: 0}
@@ -420,3 +420,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57de27523cf1b24aaedc779f7420e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1911511476 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11427250, guid: ccf8c8cc05aad7b40a8deb4f73296da4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1911511467}
+  m_Script: {fileID: 11500000, guid: 8902ef04f323e444b98d2e4fd80a56ab, type: 3}
+--- !u!114 &1911511477 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11495966, guid: ccf8c8cc05aad7b40a8deb4f73296da4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1911511467}
+  m_Script: {fileID: 11500000, guid: ffebc012055484b4899e163803755608, type: 3}
+--- !u!4 &1911511482 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 493278, guid: ccf8c8cc05aad7b40a8deb4f73296da4, type: 2}
+  m_PrefabInternal: {fileID: 1911511467}
