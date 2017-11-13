@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Riley Test.unity
-  isLoaded: 1
-  isActive: 1
