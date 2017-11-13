@@ -221,6 +221,7 @@ ff2629f91a8e34f209aa735f6395b0c0 Assembly-CSharp.dll:.GeneralBasicCS
 671d62c40f947fdbe161ccd8ce53712d Assembly-CSharp.dll:Valve.VR.InteractionSystem.SpawnRenderModel
 1957a9369e72d2661ae9d0de26e7d064 Assembly-CSharp.dll:TMPro.Examples.WarpTextExample
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:VRTK.Examples.VRTK_ControllerInteract_ListenerExample
+ae088e0c3b5caefc991448bd4ac9b5f8 Assembly-CSharp.dll:.LaserPointer
 f0bdc1041dee6504f25216b38b2bb3cb TextMeshPro-1.0.55.2017.2.0b12.dll:TMPro.InlineGraphic
 cd5f66d713a060bf891e329290b64cc4 TextMeshPro-1.0.55.2017.2.0b12.dll:TMPro.InlineGraphicManager
 f4bd1aee67eeef7953cce6c44588b3d7 TextMeshPro-1.0.55.2017.2.0b12.dll:TMPro.TextContainer
