@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PhotoRevealer : MonoBehaviour {
-
+    public GameObject photo;
 	// Use this for initialization
 	void Start () {
 		
@@ -16,9 +16,9 @@ public class PhotoRevealer : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        if(other)
+        if(other.tag == "Controller")
         {
-            
+            photo.SetActive(true);
         }
     }
 }
