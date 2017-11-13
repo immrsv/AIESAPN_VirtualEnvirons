@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/VR Test Scene.unity
+- path: Assets/Riley Test.unity
   isLoaded: 1
   isActive: 1
