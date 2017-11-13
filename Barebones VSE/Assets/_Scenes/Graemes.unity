@@ -218,7 +218,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11415056, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8212896, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
       propertyPath: m_Enabled
@@ -252,6 +252,22 @@ Prefab:
       propertyPath: m_Parameters.widthMultiplier
       value: 1.73
       objectReference: {fileID: 0}
+    - target: {fileID: 11415056, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
+      propertyPath: m_EyeRaycaster
+      value: 
+      objectReference: {fileID: 1911511477}
+    - target: {fileID: 11415056, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
+      propertyPath: m_VRInput
+      value: 
+      objectReference: {fileID: 1911511476}
+    - target: {fileID: 11415056, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
+      propertyPath: m_CameraTransform
+      value: 
+      objectReference: {fileID: 1911511482}
+    - target: {fileID: 11415056, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
+      propertyPath: m_Reticle
+      value: 
+      objectReference: {fileID: 1911511470}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 565fa42cafc247f4f87fd720db4871ad, type: 2}
   m_IsPrefabParent: 0
@@ -420,6 +436,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57de27523cf1b24aaedc779f7420e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1911511470 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11420606, guid: ccf8c8cc05aad7b40a8deb4f73296da4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1911511467}
+  m_Script: {fileID: 11500000, guid: aff17147c9606014f8e8f74f255d466a, type: 3}
 --- !u!114 &1911511476 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11427250, guid: ccf8c8cc05aad7b40a8deb4f73296da4,
