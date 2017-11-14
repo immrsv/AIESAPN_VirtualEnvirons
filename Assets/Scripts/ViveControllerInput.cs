@@ -66,6 +66,7 @@ public class ViveControllerInput : MonoBehaviour {
             }
             else if(UICanvas.activeSelf != true)
             {
+
                 controllerObject.GetComponent<LaserPointer>().enabled = false;
                 controllerObject.GetComponent<SteamVR_LaserPointer>().enabled = true;
                 UICanvas.SetActive(true);
