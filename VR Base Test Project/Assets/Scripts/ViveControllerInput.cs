@@ -27,7 +27,7 @@ public class ViveControllerInput : MonoBehaviour {
         // 1
         if (Controller.GetAxis() != Vector2.zero)
         {
-            Debug.Log(gameObject.name + Controller.GetAxis());
+            //Debug.Log(gameObject.name + Controller.GetAxis());
         }
 
         // 2
@@ -57,14 +57,14 @@ public class ViveControllerInput : MonoBehaviour {
         if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
         {
             
-            
-            if(UICanvas)
+            if(UICanvas.activeSelf == true)
             {
+                
                 controllerObject.GetComponent<LaserPointer>().enabled = true;
                 controllerObject.GetComponent<SteamVR_LaserPointer>().enabled = false;
                 UICanvas.SetActive(false);
             }
-            if(!UICanvas)
+            else if(UICanvas.activeSelf != true)
             {
                 controllerObject.GetComponent<LaserPointer>().enabled = false;
                 controllerObject.GetComponent<SteamVR_LaserPointer>().enabled = true;
@@ -75,7 +75,8 @@ public class ViveControllerInput : MonoBehaviour {
 
     public void Screenshot()
     {
-        ScreenCapture.CaptureScreenshot(System.DateTime.Now.ToShortTimeString() + ".png");
+        ScreenCapture.CaptureScreenshot("TestScreenshot.png");
+        Debug.Log(System.IO.Directory.GetCurrentDirectory());
         print("screenshot should be saved");
     }
 }
