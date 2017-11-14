@@ -5,11 +5,11 @@ using UnityEngine;
 public class PhotoRevealer : MonoBehaviour {
     public GameObject photo;
     public GameObject UIPrompt;
-    private SteamVR_TrackedObject trackedObj;
+    protected SteamVR_TrackedController trackedObj;
     private Renderer rend;
     private SteamVR_Controller.Device Controller
     {
-        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+        get { return SteamVR_Controller.Input((int)trackedObj.controllerIndex); }
     }
     // Use this for initialization
     void Start () {
@@ -24,7 +24,11 @@ public class PhotoRevealer : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Controller")
+        if (trackedObj != null) return;
+
+        trackedObj = other.GetComponent<SteamVR_TrackedController>();
+
+        if (trackedObj != null)
         {
             UIPrompt.SetActive(true);
             
@@ -33,23 +37,29 @@ public class PhotoRevealer : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Controller")
-        {
+        if (trackedObj != null && other.GetComponent<SteamVR_TrackedController>() == trackedObj ) {
+            trackedObj = null;
             UIPrompt.SetActive(false);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Controller" && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip) && !photo.activeSelf)
+        if (trackedObj == null) return;
+
+        
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
-            rend.material.color = Color.green;
-            photo.SetActive(true);
-        }
-        if (other.tag == "Controller" && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip) && photo.activeSelf)
-        {
-            rend.material.color = Color.red;
-            photo.SetActive(false);
+            if (!photo.activeSelf)
+            {
+                rend.material.color = Color.green;
+                photo.SetActive(true);
+            }
+            else
+            {
+                rend.material.color = Color.red;
+                photo.SetActive(false);
+            }
         }
     }
 }
