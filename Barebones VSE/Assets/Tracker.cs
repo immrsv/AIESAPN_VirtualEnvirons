@@ -5,7 +5,7 @@ using UnityEngine.XR;
 
 public class Tracker : MonoBehaviour {
 
-    public XRNode TrackingNode;
+    public XRNode TrackingNode = XRNode.LeftHand;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +14,7 @@ public class Tracker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = InputTracking.GetLocalPosition(TrackingNode);
+        transform.localPosition = InputTracking.GetLocalPosition(TrackingNode);
+        transform.localRotation = InputTracking.GetLocalRotation(TrackingNode);
 	}
 }
