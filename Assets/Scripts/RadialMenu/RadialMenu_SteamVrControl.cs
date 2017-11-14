@@ -55,7 +55,7 @@ namespace RadialMenu
             var dist = Mathf.Abs(position.z);
 
             // Find ray intersect
-            var intersect = position + (direction * dist);
+            var intersect = Vector3.ProjectOnPlane(position, Vector3.forward) + Vector3.ProjectOnPlane(direction * dist, Vector3.forward);
 
             if (Menu.IsVisible)
             {
