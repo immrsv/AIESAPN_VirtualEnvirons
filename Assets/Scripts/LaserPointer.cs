@@ -53,6 +53,18 @@ public class LaserPointer : MonoBehaviour {
         // 4
         laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
             hit.distance);
+
+
+        // Update Line Renderer Positions:
+        var lr = laser.GetComponent<LineRenderer>();
+
+        var posns = new Vector3[lr.positionCount];
+        var posnCount = lr.GetPositions( posns);
+
+        posns[0] = trackedObj.transform.position;
+        posns[1] = hit.point;
+
+        lr.SetPositions(posns);
     }
 
     private void Teleport()
