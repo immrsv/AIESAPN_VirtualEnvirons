@@ -33,6 +33,8 @@ namespace RadialMenu
         {
             var position = TrackedController.transform.position;
 
+            position += Camera.main.transform.forward * Distance;
+
             var rotation = Camera.main.transform.rotation;
             if (AlignToViewsphere)
             {

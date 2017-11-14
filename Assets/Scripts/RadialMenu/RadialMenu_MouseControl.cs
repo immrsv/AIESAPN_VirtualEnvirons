@@ -11,7 +11,7 @@ namespace RadialMenu {
         public string TriggerName = "Fire1";
 
         public bool AlignToViewsphere;
-        public float Distance = 20;
+        public float Distance = 0.3f;
 
         protected RadialMenu_Master Menu;
 
