@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4683909075298040}
   - component: {fileID: 33322686766539636}
   - component: {fileID: 23271106897970668}
-  - component: {fileID: 114573543018077132}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -83,22 +82,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1522335766300746}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114573543018077132
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1522335766300746}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07777f6421418fd4a933c3ef5438f9aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserPrefab: {fileID: 0}
-  cameraRigTransform: {fileID: 0}
-  teleportReticlePrefab: {fileID: 0}
-  headTransform: {fileID: 0}
-  teleportReticleOffset: {x: 0, y: 0, z: 0}
-  teleportMask:
-    serializedVersion: 2
-    m_Bits: 0
