@@ -51,5 +51,10 @@ public class ViveControllerInput : MonoBehaviour {
         {
             Debug.Log(gameObject.name + " Grip Release");
         }
+
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            ScreenCapture.CaptureScreenshot(System.DateTime.Now.ToShortTimeString() + ".png");
+        }
     }
 }
