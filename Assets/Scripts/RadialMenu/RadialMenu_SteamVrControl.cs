@@ -33,7 +33,7 @@ namespace RadialMenu
         {
             var position = TrackedController.transform.position;
 
-            position += Camera.main.transform.forward * Distance;
+            position += TrackedController.transform.forward * Distance;
 
             var rotation = Camera.main.transform.rotation;
             if (AlignToViewsphere)
@@ -48,12 +48,20 @@ namespace RadialMenu
         // Update is called once per frame
         void Update()
         {
-            var position = TrackedController.transform.position;
+            var position = Menu.transform.InverseTransformPoint(TrackedController.transform.position);
+            var direction = Menu.transform.InverseTransformVector(TrackedController.transform.forward);
 
-            //if (Menu.IsVisible)
-            //{
-            //    Menu.UpdateCursor(Menu.transform.worldToLocalMatrix.MultiplyPoint(worldPosition));
-            //}
+            // distance from plane
+            var dist = Mathf.Abs(position.z);
+
+            // Find ray intersect
+            var intersect = position + (direction * dist);
+
+            if (Menu.IsVisible)
+            {
+                Menu.UpdateCursor(intersect);
+            }
+
         }
     }
 }
