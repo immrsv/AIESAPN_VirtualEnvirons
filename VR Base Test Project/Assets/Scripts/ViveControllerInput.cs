@@ -12,6 +12,8 @@ public class ViveControllerInput : MonoBehaviour {
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
+    public GameObject UICanvas;
+    public GameObject controllerObject;
 
     void Awake()
     {
@@ -51,5 +53,29 @@ public class ViveControllerInput : MonoBehaviour {
         {
             Debug.Log(gameObject.name + " Grip Release");
         }
+
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            
+            
+            if(UICanvas)
+            {
+                controllerObject.GetComponent<LaserPointer>().enabled = true;
+                controllerObject.GetComponent<SteamVR_LaserPointer>().enabled = false;
+                UICanvas.SetActive(false);
+            }
+            if(!UICanvas)
+            {
+                controllerObject.GetComponent<LaserPointer>().enabled = false;
+                controllerObject.GetComponent<SteamVR_LaserPointer>().enabled = true;
+                UICanvas.SetActive(true);
+            }
+        }
+    }
+
+    public void Screenshot()
+    {
+        ScreenCapture.CaptureScreenshot(System.DateTime.Now.ToShortTimeString() + ".png");
+        print("screenshot should be saved");
     }
 }

@@ -17,7 +17,8 @@ public class DoorOpener : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Controller" && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        trackedObj = other.GetComponent<SteamVR_TrackedObject>();
+        if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
             if (isOpen == true)
             {
