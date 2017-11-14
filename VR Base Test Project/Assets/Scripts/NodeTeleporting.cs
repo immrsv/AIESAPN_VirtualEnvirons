@@ -15,11 +15,8 @@ public class NodeTeleporting : MonoBehaviour {
     void OnTriggerStay (Collider other)
     {
         trackedObj = other.GetComponent<SteamVR_TrackedObject>();
-
-        print("node collided");
         if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
-            print("node grip pressed");
             player.transform.position = node.transform.position;
         }
     }

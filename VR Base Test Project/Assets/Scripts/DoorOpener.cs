@@ -17,19 +17,16 @@ public class DoorOpener : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        print("door collided");
-        if (other.tag == "Controller" && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        trackedObj = other.GetComponent<SteamVR_TrackedObject>();
+        if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
-            print("door grip pressed");
             if (isOpen == true)
             {
-                print("closing door");
                 LeanTween.rotate(door, rotateClose, 1f);
                 isOpen = !isOpen;
             }
             else if (isOpen == false)
             {
-                print("opening door");
                 LeanTween.rotate(door, rotateOpen, 1f);
                 isOpen = !isOpen;
             }
