@@ -3,21 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NodeTeleporting : MonoBehaviour {
-    
-    public Transform player, node;
+    static List<NodeTeleporting> AllNodes = new List<NodeTeleporting>(); 
+    public string name;
+    public Sprite sprite; 
+    //private SteamVR_Controller.Device Controller 
+    //{
+    //    get { return SteamVR_Controller.Input((int)trackedObj.index); }
+    //}
 
-    private SteamVR_TrackedObject trackedObj;
-    private SteamVR_Controller.Device Controller 
+    //void OnTriggerStay (Collider other)
+    //{
+    //    trackedObj = other.GetComponent<SteamVR_TrackedObject>();
+    //    if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+    //    {
+    //        player.transform.position = transform.position;
+    //    }
+    //}
+    private void Awake()
     {
-        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+        AllNodes.Add(this);
     }
 
-    void OnTriggerStay (Collider other)
+    private void OnDestroy()
     {
-        trackedObj = other.GetComponent<SteamVR_TrackedObject>();
-        if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
-        {
-            player.transform.position = node.transform.position;
-        }
+        AllNodes.Remove(this);
+    }
+
+    public void Warp(Transform playerTransform)
+    {
+        playerTransform.position = transform.position;
     }
 }
