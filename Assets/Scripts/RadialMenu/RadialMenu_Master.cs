@@ -150,6 +150,14 @@ namespace RadialMenu {
             }
         }
 
+        void WipeSegments(bool setVisible)
+        {
+            if (setVisible)
+            {
+
+            }
+        }
+
         void ShowSegments(Action onComplete) { }
         void HideSegments(Action onComplete) { }
 
@@ -177,12 +185,12 @@ namespace RadialMenu {
 
         protected void TestSegments(Vector3 localPosition)
         {
-            foreach (var segment in Segments)
+            for (var i = 0; i < Segments.Length; i++)
             {
-                if (SegmentContains(segment, localPosition))
-                    segment.BackgroundColor = Color.green;
+                if (SegmentContains(Segments[i], localPosition))
+                    Segments[i].BackgroundColor = Color.green;
                 else
-                    segment.BackgroundColor = Color.black;
+                    Segments[i].BackgroundColor = Color.black;
             }
         }
 
