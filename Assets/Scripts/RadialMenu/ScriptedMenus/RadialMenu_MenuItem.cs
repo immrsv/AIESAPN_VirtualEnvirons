@@ -5,20 +5,24 @@ using UnityEngine;
 
 namespace RadialMenu
 {
-    
-    public class NewBehaviourScript : ScriptableObject
+    [CreateAssetMenu(fileName = "MenuItem", menuName = "Radial Menu/Menu Item")]
+    public class RadialMenu_MenuItem : ScriptableObject
     {
 
-        // Use this for initialization
-        void Start()
+        public string Text;
+
+        public string ObjectName;
+        public string Message;
+        public string Parameter;
+
+        public List<RadialMenu_MenuItem> Items;
+
+        public virtual void DoClick()
         {
+            var go = GameObject.Find(ObjectName);
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            if ( go != null )
+                go.BroadcastMessage(Message, Parameter, SendMessageOptions.DontRequireReceiver);
         }
     }
 }

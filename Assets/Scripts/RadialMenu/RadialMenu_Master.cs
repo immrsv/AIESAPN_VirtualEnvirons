@@ -7,6 +7,34 @@ using UnityEngine.EventSystems;
 
 namespace RadialMenu {
     public class RadialMenu_Master : MonoBehaviour {
+
+        #region " Segment Layout Presets "
+
+        private class SegmentPreset
+        {
+            public float Rotation;
+            public float Size;
+        }
+
+        private Dictionary<int, List<SegmentPreset>> SegmentPresets = new Dictionary<int, List<SegmentPreset>>();
+
+        public RadialMenu_Master()
+        {
+            // 8 Elements:
+            var segmentCount = 8;
+            SegmentPresets.Add(segmentCount, new List<SegmentPreset>());
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 0, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 045, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 090, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 135, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 180, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 225, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 270, Size = 40 });
+            SegmentPresets[segmentCount].Add(new SegmentPreset { Rotation = 315, Size = 40 });
+        }
+
+        #endregion
+
         [System.Serializable]
         public class MenuColors {
             public Color BackColor = Color.black;
@@ -34,6 +62,11 @@ namespace RadialMenu {
         protected int SelectedIndex;
         protected float SelectionStart;
 
+        [Header("Items")]
+        public List<RadialMenu_MenuItem> RootItems;
+
+        protected Stack<RadialMenu_MenuItem> Submenu = new Stack<RadialMenu_MenuItem>();
+
         // Use this for initialization
         void Start() {
             ConfirmationRadius = Mathf.Min(SelectionRadius, ConfirmationRadius);
@@ -46,6 +79,8 @@ namespace RadialMenu {
 
 
         public void Show(Vector3 position, Vector3 forward) {
+
+            Submenu.Clear();
 
             if (Cursor != null) Cursor.SetActive(true);
 
@@ -96,6 +131,24 @@ namespace RadialMenu {
 
         }
 
+        void BuildSegments() {
+
+            var activeSegments = Submenu.Count > 0 ? Submenu.Peek().Items : RootItems;
+            var ShowPaging = false;
+
+            var SystemButtons = (ShowPaging ? 3 : 1);
+
+            // Count = 1 (Back) + Item Count + (optional: paging buttons)
+            var count = activeSegments.Count + SystemButtons;
+
+            var layout = SegmentPresets.ContainsKey(count) ? SegmentPresets[count] : SegmentPresets[8];
+
+            for ( var i = 0; i < layout.Count; i++)
+            {
+                Segments[i].transform.localRotation = Quaternion.Euler(0, 0, layout[i].Rotation);
+                Segments[i].SegmentFillAmount = layout[i].Size / 360.0f;
+            }
+        }
 
         void ShowSegments(Action onComplete) { }
         void HideSegments(Action onComplete) { }
@@ -105,12 +158,8 @@ namespace RadialMenu {
 
             if (Cursor != null) Cursor.transform.localPosition = localPosition;
 
-            foreach ( var segment in Segments) {
-                if (SegmentContains(segment, localPosition))
-                    segment.BackgroundColor = Color.green;
-                else
-                    segment.BackgroundColor = Color.black;
-            }
+            TestSegments(localPosition);
+
         }
 
 
@@ -124,6 +173,27 @@ namespace RadialMenu {
                 return true;
 
             return false;
+        }
+
+        protected void TestSegments(Vector3 localPosition)
+        {
+            foreach (var segment in Segments)
+            {
+                if (SegmentContains(segment, localPosition))
+                    segment.BackgroundColor = Color.green;
+                else
+                    segment.BackgroundColor = Color.black;
+            }
+        }
+
+        protected void SelectSegment()
+        {
+
+        }
+
+        protected void ConfirmSegment()
+        {
+
         }
     }
 }
