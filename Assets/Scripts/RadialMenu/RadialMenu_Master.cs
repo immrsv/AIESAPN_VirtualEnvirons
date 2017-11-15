@@ -101,8 +101,6 @@ namespace RadialMenu {
         void HideSegments(Action onComplete) { }
 
         public void UpdateCursor(Vector3 localPosition) {
-            Debug.Log("RM LocalPosition: " + localPosition);
-
             BroadcastMessage("RM_UpdateCursor", localPosition, SendMessageOptions.DontRequireReceiver);
 
             if (Cursor != null) Cursor.transform.localPosition = localPosition;

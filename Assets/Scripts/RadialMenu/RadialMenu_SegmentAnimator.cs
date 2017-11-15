@@ -63,10 +63,10 @@ namespace RadialMenu {
 
         public float SegmentRotation {
             get {
-                return transform.rotation.z / 360.0f;
+                return transform.localRotation.z / 360.0f;
             }
             set {
-                transform.rotation = Quaternion.Euler(0, 0, 360 * value);
+                transform.localRotation = Quaternion.Euler(0, 0, 360 * value);
             }
         }
 
@@ -83,17 +83,21 @@ namespace RadialMenu {
         // Update is called once per frame
         void Update() {
 
+            Debug.Log("RM Anim: " + transform.parent.parent.name);
+
             if (AlignContentsToWorld)
-                Contents.rotation = transform.parent.parent.parent.rotation;
+                Contents.rotation = transform.parent.parent.rotation;
         }
 
 
         void RM_UpdateCursor(Vector3 localPosition) {
             //Debug.Log(gameObject.name + " - OptionAnimator::_UpdateCursor(): Local Position = " + localPosition + " [" + MaskImage.transform.up + "]");
 
+            var localUp = transform.localRotation * Vector3.up;
+
             var clampedPosition = localPosition.sqrMagnitude <= 1.0 ? localPosition : localPosition.normalized;
 
-            var dot = Mathf.Clamp01(1.05f * Vector3.Dot(clampedPosition, -transform.up));
+            var dot = Mathf.Clamp01(1.05f * Vector3.Dot(clampedPosition, -localUp));
 
             transform.localScale = Vector3.one * (1.0f + dot / 10.0f);
 
