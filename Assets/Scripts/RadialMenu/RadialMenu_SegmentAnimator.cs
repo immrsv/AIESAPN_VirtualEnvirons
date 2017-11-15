@@ -9,7 +9,7 @@ namespace RadialMenu {
         public bool AlignContentsToWorld;
 
         protected Image _BackgroundImage;
-        protected Image BackgroundImage {
+        public Image BackgroundImage {
             get {
                 if (_BackgroundImage == null ) _BackgroundImage = transform.GetChild(0).GetComponent<Image>();
                 return _BackgroundImage;
@@ -17,7 +17,7 @@ namespace RadialMenu {
         }
 
         protected Image _BackgroundHighlightMask;
-        protected Image BackgroundHighlightMask {
+        public Image BackgroundHighlightMask {
             get {
                 if (_BackgroundHighlightMask == null) _BackgroundHighlightMask = transform.GetChild(1).GetComponent<Image>();
                 return _BackgroundHighlightMask;
@@ -25,7 +25,7 @@ namespace RadialMenu {
         }
 
         protected Image _BackgroundHighlight;
-        protected Image BackgroundHighlight {
+        public Image BackgroundHighlight {
             get {
                 if (_BackgroundHighlight == null) _BackgroundHighlight = transform.GetChild(1).GetChild(0).GetComponent<Image>();
                 return _BackgroundHighlight;
@@ -33,7 +33,7 @@ namespace RadialMenu {
         }
 
         protected Transform _Contents;
-        protected Transform Contents {
+        public Transform Contents {
             get {
                 if ( _Contents == null ) _Contents = transform.GetChild(2).transform;
                 return _Contents;
