@@ -17,7 +17,7 @@ namespace RadialMenu
 
         public List<RadialMenu_MenuItem> Items;
 
-        public virtual void DoClick()
+        public virtual void Clicked()
         {
             var go = GameObject.Find(ObjectName);
 

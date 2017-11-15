@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text: Say Hello
   ObjectName: RadialMenu
-  Message: SayHello
+  Message: DebugSay
   Parameter: Hello, World!
   Items: []
