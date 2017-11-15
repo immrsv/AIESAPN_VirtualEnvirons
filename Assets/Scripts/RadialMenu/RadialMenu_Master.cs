@@ -18,6 +18,7 @@ namespace RadialMenu {
         public MenuColors Colors;
 
         [Header("Segments")]
+        public GameObject Cursor;
         public GameObject Centre;
         public GameObject SegmentsMaster;
         public RadialMenu_SegmentAnimator[] Segments;
@@ -44,7 +45,9 @@ namespace RadialMenu {
         }
 
 
-        public void Show(Vector3 position, Quaternion rotation) {
+        public void Show(Vector3 position, Vector3 forward) {
+
+            if (Cursor != null) Cursor.SetActive(true);
 
             Centre.SetActive(true);
             for (var i = 0; i < Segments.Length; i++) {
@@ -53,7 +56,7 @@ namespace RadialMenu {
             }
 
             transform.position = position;
-            transform.rotation = rotation;
+            transform.forward = forward;
 
 
             LeanTween.value(SegmentsMaster, (value) => { SegmentsMaster.GetComponent<Image>().fillAmount = value; }, 0, 1, RevealDelay)
@@ -82,6 +85,8 @@ namespace RadialMenu {
                     SegmentsMaster.GetComponent<Mask>().enabled = true;
                 })
                 .setOnComplete(() => {
+                    if (Cursor != null) Cursor.SetActive(false);
+
                     Centre.SetActive(false);
                     for (var i = 0; i < Segments.Length; i++) {
                         if (Segments[i] == null) continue;
@@ -95,11 +100,15 @@ namespace RadialMenu {
         void ShowSegments(Action onComplete) { }
         void HideSegments(Action onComplete) { }
 
-        public void UpdateCursor(Vector3 position) {
-            BroadcastMessage("RM_UpdateCursor", position, SendMessageOptions.DontRequireReceiver);
+        public void UpdateCursor(Vector3 localPosition) {
+            Debug.Log("RM LocalPosition: " + localPosition);
+
+            BroadcastMessage("RM_UpdateCursor", localPosition, SendMessageOptions.DontRequireReceiver);
+
+            if (Cursor != null) Cursor.transform.localPosition = localPosition;
 
             foreach ( var segment in Segments) {
-                if (SegmentContains(segment, position))
+                if (SegmentContains(segment, localPosition))
                     segment.BackgroundColor = Color.green;
                 else
                     segment.BackgroundColor = Color.black;
@@ -109,10 +118,11 @@ namespace RadialMenu {
 
         protected bool SegmentContains(RadialMenu_SegmentAnimator segment, Vector3 point) {
 
+            var localUp = (segment.transform.localRotation * Vector3.up);
             if (point.magnitude < SelectionRadius)
                 return false;
 
-            if (Mathf.Acos(Vector3.Dot(point.normalized, -segment.transform.up)) < segment.SegmentFillHalfangle)
+            if (Mathf.Acos(Vector3.Dot(point.normalized, -localUp)) < segment.SegmentFillHalfangle)
                 return true;
 
             return false;

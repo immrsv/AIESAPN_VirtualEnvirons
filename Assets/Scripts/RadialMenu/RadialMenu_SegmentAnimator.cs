@@ -84,7 +84,7 @@ namespace RadialMenu {
         void Update() {
 
             if (AlignContentsToWorld)
-                Contents.up = Camera.main.transform.up;
+                Contents.rotation = transform.parent.parent.parent.rotation;
         }
 
 
