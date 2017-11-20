@@ -4,13 +4,15 @@ using UnityEngine;
 using TMPro;
 
 public class MeasurementTool : MonoBehaviour {
-    public GameObject startSphere;
-    public GameObject endSphere;
-    public LineRenderer line;
+    public GameObject redSphere;
+    public GameObject greenSphere;
+    public LineRenderer distanceLine;
     public float distance;
     private int sphereIndex;
 
     public TextMeshPro distanceText;
+    public TextMeshProUGUI distanceToGroundRed;
+    public TextMeshProUGUI distanceToGroundGreen;
     public GameObject laserPrefab;
     private GameObject laser;
     private Transform laserTransform;
@@ -46,14 +48,14 @@ public class MeasurementTool : MonoBehaviour {
         if (sphereIndex == 0)
         {
             //placing start
-            startSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
+            redSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
             sphereIndex = 1;
         }
 
         else
         {
             //placing end
-            endSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
+            greenSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
             sphereIndex = 0;
         }
     }
@@ -123,16 +125,29 @@ public class MeasurementTool : MonoBehaviour {
         }
 
 
-        if (startSphere.activeSelf && endSphere.activeSelf)
+        if (redSphere.activeSelf && greenSphere.activeSelf)
         {
-            line.SetPosition(0, startSphere.transform.localPosition);
-            line.SetPosition(1, endSphere.transform.localPosition);
+            distanceLine.SetPosition(0, redSphere.transform.localPosition);
+            distanceLine.SetPosition(1, greenSphere.transform.localPosition);
 
-            distance = (startSphere.transform.position - endSphere.transform.position).magnitude;
-            distanceText.text = distance.ToString();
+            distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
+            distanceText.text = distance.ToString("N3") + "m";
+            distanceToGroundRed.text = "Red Y " + redSphere.transform.position.y.ToString("N3");
+            distanceToGroundGreen.text = "Green Y " + greenSphere.transform.position.y.ToString("N3");
 
-            var textPos = endSphere.transform.position + (startSphere.transform.position - endSphere.transform.position) / 2;
+            var textPos = greenSphere.transform.position + (redSphere.transform.position - greenSphere.transform.position) / 2;
             distanceText.transform.position = textPos + new Vector3(0, 2, 0);
+            distanceText.transform.forward = Camera.main.transform.forward;
+            //distanceText.transform.up = Vector3.up;
+            RaycastHit hitInfo;
+            var direction = (distanceText.transform.position - Camera.main.transform.position).normalized;
+            if (Physics.Raycast(Camera.main.transform.position, direction, out hitInfo))
+            {
+                if (hitInfo.collider.gameObject != distanceText)
+                {
+                    distanceText.transform.position = Camera.main.transform.position + direction * hitInfo.distance *0.95f;
+                }
+            }
         }
 
         
