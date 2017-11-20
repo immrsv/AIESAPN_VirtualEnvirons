@@ -132,8 +132,8 @@ public class MeasurementTool : MonoBehaviour {
 
             distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
             distanceText.text = distance.ToString("N3") + "m";
-            distanceToGroundRed.text = "Red Y " + redSphere.transform.position.y.ToString("N3");
-            distanceToGroundGreen.text = "Green Y " + greenSphere.transform.position.y.ToString("N3");
+            distanceToGroundRed.text = "Red Y: " + redSphere.transform.position.y.ToString("N3");
+            distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
 
             var textPos = greenSphere.transform.position + (redSphere.transform.position - greenSphere.transform.position) / 2;
             distanceText.transform.position = textPos + new Vector3(0, 2, 0);
