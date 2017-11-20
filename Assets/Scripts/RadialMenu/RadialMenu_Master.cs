@@ -5,6 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// TODO:
+/// Preselect segment
+/// Confirm Select Segment
+/// Activate Segment
+/// </summary>
 namespace RadialMenu {
     public class RadialMenu_Master : MonoBehaviour {
 
