@@ -18,7 +18,7 @@ public class AlphaWithView : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         var alignment = Vector3.Dot(Camera.main.transform.forward, transform.forward);
-        Debug.Log("DOT: " + alignment);
+        //Debug.Log("DOT: " + alignment);
 
 
         var bgAlpha = Mathf.Clamp01(BgAlphaScale.Evaluate(alignment));

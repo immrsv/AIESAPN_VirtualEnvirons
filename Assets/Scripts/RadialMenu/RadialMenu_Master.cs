@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 /// Preselect segment
 /// Confirm Select Segment
 /// Activate Segment
+/// "Paging"
 /// </summary>
 namespace RadialMenu {
     public class RadialMenu_Master : MonoBehaviour {
@@ -40,6 +41,16 @@ namespace RadialMenu {
         }
 
         #endregion
+        #region " Events "
+        public event Action<object> MenuItemsChanged;
+        public void RaiseMenuItemsChanged() { if (MenuItemsChanged != null) MenuItemsChanged(this); }
+
+        public event Action<object, int> MenuPageChanged;
+        public void RaiseMenuPageChanged(int oldValue) { if (MenuPageChanged != null) MenuPageChanged(this, oldValue); }
+
+        public event Action<object, int> SelectionChanged;
+
+        #endregion
 
         [System.Serializable]
         public class MenuColors {
@@ -65,28 +76,62 @@ namespace RadialMenu {
         [Range(0,1)]
         public float ConfirmationRadius;
 
-        protected int SelectedIndex;
-        protected float SelectionStart;
+        protected int _SelectedIndex;
+        protected int SelectedIndex {
+            get { return _SelectedIndex; }
+            set {
+                if (_SelectedIndex == value) return;
+                if (_SelectedIndex >= 0 && _SelectedIndex < Segments.Length)
+                    //Segments[_SelectedIndex].SetSelecting(false);
+                    DeselectSegment(_SelectedIndex);
+
+                var old = _SelectedIndex;
+                _SelectedIndex = value;
+                
+                if (_SelectedIndex >= 0 && _SelectedIndex < Segments.Length)
+                    //Segments[_SelectedIndex].SetSelecting(true);
+                    SelectSegment(_SelectedIndex);
+                // TODO: Raise Selecting Index Changed
+
+            }
+        }
 
         [Header("Items")]
         public List<RadialMenu_MenuItem> RootItems;
 
-        protected Stack<RadialMenu_MenuItem> Submenu = new Stack<RadialMenu_MenuItem>();
+        protected Stack<RadialMenu_MenuItem> MenuStack = new Stack<RadialMenu_MenuItem>();
 
-        // Use this for initialization
+        protected RadialMenu_MenuItem[] _CurrentItems;
+        protected RadialMenu_MenuItem[] CurrentItems {
+            get {
+                return _CurrentItems;
+            }
+            set {
+                if (_CurrentItems == value) return;
+
+            }
+        }
+
+        protected int _ItemsPage;
+        protected int ItemsPage {
+            get {
+                return _ItemsPage;
+            }
+            set {
+                if (_ItemsPage == value) return;
+
+            }
+        }
+
+        protected LTDescr Tween;
+
         void Start() {
             ConfirmationRadius = Mathf.Min(SelectionRadius, ConfirmationRadius);
         }
 
-        // Update is called once per frame
-        void Update() {
-
-        }
-
-
         public void Show(Vector3 position, Vector3 forward) {
 
-            Submenu.Clear();
+            MenuStack.Clear();
 
             if (Cursor != null) Cursor.SetActive(true);
 
@@ -107,6 +152,7 @@ namespace RadialMenu {
                     SegmentsMaster.GetComponent<Image>().fillAmount = 0;
 
                     SegmentsMaster.GetComponent<Mask>().enabled = true;
+                    SelectedIndex = -1;
                 })
                 .setOnComplete(() => {
                     SegmentsMaster.GetComponent<Image>().enabled = false;
@@ -139,7 +185,7 @@ namespace RadialMenu {
 
         void BuildSegments() {
 
-            var activeSegments = Submenu.Count > 0 ? Submenu.Peek().Items : RootItems;
+            var activeSegments = MenuStack.Count > 0 ? MenuStack.Peek().Children : RootItems;
             var ShowPaging = false;
 
             var SystemButtons = (ShowPaging ? 3 : 1);
@@ -174,40 +220,41 @@ namespace RadialMenu {
 
             TestSegments(localPosition);
 
-        }
-
-
-        protected bool SegmentContains(RadialMenu_SegmentAnimator segment, Vector3 point) {
-
-            var localUp = (segment.transform.localRotation * Vector3.up);
-            if (point.magnitude < SelectionRadius)
-                return false;
-
-            if (Mathf.Acos(Vector3.Dot(point.normalized, -localUp)) < segment.SegmentFillHalfangle)
-                return true;
-
-            return false;
+            // For each segment
+            //  
         }
 
         protected void TestSegments(Vector3 localPosition)
         {
             for (var i = 0; i < Segments.Length; i++)
             {
-                if (SegmentContains(Segments[i], localPosition))
-                    Segments[i].BackgroundColor = Color.green;
-                else
-                    Segments[i].BackgroundColor = Color.black;
+                if (Segments[i].Contains(localPosition))
+                {
+                    if (localPosition.magnitude > SelectionRadius)
+                    {
+                        SelectedIndex = i;
+                    }
+                }
             }
         }
 
-        protected void SelectSegment()
+
+        protected void SelectSegment(int index)
         {
 
+            Segments[index].BackgroundColor = Color.green;
+        }
+
+        protected void DeselectSegment(int index)
+        {
+
+            Segments[index].BackgroundColor = Color.black;
         }
 
         protected void ConfirmSegment()
         {
 
         }
+        
     }
 }

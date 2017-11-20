@@ -72,7 +72,7 @@ namespace RadialMenu {
 
         public Color BackgroundColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
         public Color HighlightColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
-        public Color SelectedColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
+        public Color SelectingColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
         public Color TextColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
         
         
@@ -104,6 +104,21 @@ namespace RadialMenu {
             BackgroundHighlight.transform.localScale = Vector3.one * dot;
             
 
+        }
+
+        public void SetSelecting(bool isSelecting)
+        {
+            if (isSelecting)
+            {
+                //BackgroundColor
+            }
+        }
+
+        public bool Contains(Vector3 localPosition)
+        {
+            var localUp = (transform.localRotation * Vector3.up);
+
+            return (Mathf.Acos(Vector3.Dot(localPosition.normalized, -localUp)) < SegmentFillHalfangle);
         }
     }
 }

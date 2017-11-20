@@ -6,19 +6,37 @@ using UnityEngine;
 namespace RadialMenu
 {
     [CreateAssetMenu(fileName = "MenuItem", menuName = "Radial Menu/Items/Action")]
-    public class RadialMenu_MenuItem : ScriptableObject
+    public abstract class RadialMenu_MenuItem : ScriptableObject
     {
-        
-        public string Text;
+        [Header("Interface Options")]
+        public string Name;
+        public UnityEngine.UI.Image Icon;
 
-        public List<RadialMenu_MenuItem> Items;
+        [Header("Actions")]
+        public string ObjectName;
+        public string ActionName;
+        public string Parameter;
 
-        public virtual void Clicked() { }
-        //{
-        //    var go = GameObject.Find(ObjectName);
+        [Header("Submenu")]
+        public List<RadialMenu_MenuItem> Children;
 
-        //    if ( go != null )
-        //        go.BroadcastMessage(ActionName, Parameter, SendMessageOptions.DontRequireReceiver);
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>True if has submenu</returns>
+        public bool Clicked() {
+
+            if (!(string.IsNullOrEmpty(ObjectName) || string.IsNullOrEmpty(ActionName))) {
+                var go = GameObject.Find(ObjectName);
+
+                if (go != null)
+                    go.BroadcastMessage(ActionName, Parameter, SendMessageOptions.DontRequireReceiver);
+            }
+
+            return Children.Count > 0;
+
+        }
+
+
     }
 }
