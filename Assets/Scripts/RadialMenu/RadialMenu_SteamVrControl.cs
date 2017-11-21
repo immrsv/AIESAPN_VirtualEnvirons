@@ -60,9 +60,9 @@ namespace RadialMenu
             var intersect = Vector3.ProjectOnPlane(position, Vector3.forward) + Vector3.ProjectOnPlane(direction * steps, Vector3.forward);
             
 
-            if (Menu.IsVisible)
+            if (Menu.Visible)
             {
-                Menu.UpdateCursor(intersect);
+                Menu.UpdateCursor(Menu.transform.TransformPoint(intersect));
             }
 
         }
