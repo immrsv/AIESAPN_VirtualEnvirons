@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbb940dd3f5b2246895b5b792390d41, type: 3}
+  m_Name: Emotes
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 0}
+  ObjectName: 
+  ActionName: 
+  Parameter: 
+  Children:
+  - {fileID: 11400000, guid: 8d1cb2d715086be429c0d534a6669752, type: 2}

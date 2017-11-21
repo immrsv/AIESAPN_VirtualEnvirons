@@ -26,8 +26,6 @@ GameObject:
   m_Component:
   - component: {fileID: 458974}
   - component: {fileID: 11411726}
-  - component: {fileID: 65035292840938246}
-  - component: {fileID: 114127453039439796}
   - component: {fileID: 54535011616488490}
   - component: {fileID: 65637533423924654}
   - component: {fileID: 114899533551623324}
@@ -85,7 +83,6 @@ GameObject:
   - component: {fileID: 11470538}
   - component: {fileID: 9213436}
   - component: {fileID: 114501977738728976}
-  - component: {fileID: 114861058103675610}
   m_Layer: 0
   m_Name: Camera (head)
   m_TagString: MainCamera
@@ -103,14 +100,9 @@ GameObject:
   - component: {fileID: 402434}
   - component: {fileID: 11463128}
   - component: {fileID: 65574505857386868}
-  - component: {fileID: 114629963787253410}
-  - component: {fileID: 114187932053411724}
   - component: {fileID: 54765730825085824}
-  - component: {fileID: 65334191930900262}
   - component: {fileID: 114929351165890802}
-  - component: {fileID: 114927715676198996}
   - component: {fileID: 114028333799745646}
-  - component: {fileID: 114091567682087574}
   m_Layer: 0
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -576,30 +568,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65035292840938246
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 124034}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.14, y: 0.07, z: 0.05}
-  m_Center: {x: 0, y: -0.04, z: 0.02}
---- !u!65 &65334191930900262
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159396}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.14, y: 0.07, z: 0.05}
-  m_Center: {x: 0, y: -0.04, z: 0.02}
 --- !u!65 &65574505857386868
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -645,100 +613,7 @@ MonoBehaviour:
   teleportMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &114091567682087574
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159396}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd904f4ca6767424eaf8e050bc174741, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playareaCursor: {fileID: 0}
-  directionIndicator: {fileID: 0}
-  customRaycast: {fileID: 0}
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 4
-  pointerOriginSmoothingSettings:
-    smoothsPosition: 0
-    maxAllowedPerFrameDistanceDifference: 0.003
-    smoothsRotation: 0
-    maxAllowedPerFrameAngleDifference: 1.5
-  validCollisionColor: {r: 0, g: 1, b: 0, a: 1}
-  invalidCollisionColor: {r: 1, g: 0, b: 0, a: 1}
-  tracerVisibility: 0
-  cursorVisibility: 0
-  maximumLength: {x: 10, y: Infinity}
-  tracerDensity: 10
-  cursorRadius: 0.5
-  heightLimitAngle: 100
-  curveOffset: 1
-  rescaleTracer: 0
-  cursorMatchTargetRotation: 0
-  collisionCheckFrequency: 0
-  customTracer: {fileID: 1595145738540048, guid: e334256bcd81db844ae932a871fb6dd9,
-    type: 2}
-  customCursor: {fileID: 0}
-  validLocationObject: {fileID: 0}
-  invalidLocationObject: {fileID: 0}
---- !u!114 &114127453039439796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 124034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 778e2971079a86244982b5a906d2e685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114187932053411724
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24c7d7d77dd0d2a4b8e1ad129b170ee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportOnClick: 0
-  teleportType: 2
 --- !u!114 &114501977738728976
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202a6e24b48d1684398409c47161adcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackingOriginTransform: {fileID: 420908}
-  hmdTransforms: []
-  hands: []
-  headCollider: {fileID: 0}
-  rigSteamVR: {fileID: 146900}
-  rig2DFallback: {fileID: 146900}
-  audioListener: {fileID: 0}
-  allowToggleTo2D: 1
---- !u!114 &114629963787253410
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 778e2971079a86244982b5a906d2e685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114861058103675610
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -768,19 +643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778e2971079a86244982b5a906d2e685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114927715676198996
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 159396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24c7d7d77dd0d2a4b8e1ad129b170ee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportOnClick: 0
-  teleportType: 2
 --- !u!114 &114929351165890802
 MonoBehaviour:
   m_ObjectHideFlags: 1

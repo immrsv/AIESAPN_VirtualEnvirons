@@ -6,10 +6,20 @@ using UnityEngine;
 namespace RadialMenu
 {
     [CreateAssetMenu(fileName = "MenuItem", menuName = "Radial Menu/Items/Action")]
-    public abstract class RadialMenu_MenuItem : ScriptableObject
+    public class RadialMenu_MenuItem : ScriptableObject
     {
+
+        public RadialMenu_MenuItem() {
+
+        }
+
+        public RadialMenu_MenuItem(System.Action actionOverride) {
+            ActionOverride = actionOverride;
+        }
+
+        protected System.Action ActionOverride;
+
         [Header("Interface Options")]
-        public string Name;
         public UnityEngine.UI.Image Icon;
 
         [Header("Actions")]
@@ -24,7 +34,12 @@ namespace RadialMenu
         /// 
         /// </summary>
         /// <returns>True if has submenu</returns>
-        public bool Clicked() {
+        public bool Selected() {
+
+            if (ActionOverride!= null) {
+                ActionOverride();
+                return false;
+            }
 
             if (!(string.IsNullOrEmpty(ObjectName) || string.IsNullOrEmpty(ActionName))) {
                 var go = GameObject.Find(ObjectName);

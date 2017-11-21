@@ -105,10 +105,9 @@ public class MeasurementTool : MonoBehaviour {
 
             //Debug.Log("holding trigger");
             RaycastHit hit;
-            Debug.Log(trackedController.transform.position + "  " + transform.forward);
             if (Physics.Raycast(trackedController.transform.position, trackedController.transform.forward, out hit, 100, teleportMask))
             {
-                Debug.Log("If is triggering");
+                //Debug.Log("If is triggering");
                 hitPoint = hit.point;
                 ShowLaser(hit);
                 reticle.SetActive(true);

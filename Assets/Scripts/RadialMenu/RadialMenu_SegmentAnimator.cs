@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace RadialMenu {
     public class RadialMenu_SegmentAnimator : MonoBehaviour {
 
-        public bool AlignContentsToWorld;
+        public bool AlignContentsToWorld = true;
 
         protected Image _BackgroundImage;
         public Image BackgroundImage {
@@ -59,7 +60,7 @@ namespace RadialMenu {
             }
         }
 
-        public float SegmentFillHalfangle { get { return BackgroundImage.transform.localRotation.z; } }
+        public float SegmentFillHalfangle { get { return SegmentFillAmount * 180; } }
 
         public float SegmentRotation {
             get {
@@ -75,20 +76,33 @@ namespace RadialMenu {
         public Color SelectingColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
         public Color TextColor { get { return BackgroundImage.color; } set { BackgroundImage.color = value; } }
         
-        
-        // Use this for initialization
-        void Start() {
+        public bool IsSelectable { get { return Item != null; } }
+
+        protected RadialMenu_MenuItem _Item;
+        public RadialMenu_MenuItem Item {
+            get {
+                return _Item;
+            }
+            set {
+                //if (_Item == value) return;
+                _Item = value;
+
+                if (_Item != null) {
+                    Contents.GetComponent<TextMeshProUGUI>().text = _Item.name;
+                }
+                else {
+                    Contents.GetComponent<TextMeshProUGUI>().text = "-";
+                }
+            }
         }
 
-        // Update is called once per frame
-        void Update() {
-
-            Debug.Log("RM Anim: " + transform.parent.parent.name);
-
-            if (AlignContentsToWorld)
-                Contents.rotation = transform.parent.parent.rotation;
+        private void Start() {
+            Contents.GetComponent<TextMeshProUGUI>().text = "--";
         }
 
+        private void Awake() {
+            Contents.transform.up = Vector3.up;
+        }
 
         void RM_UpdateCursor(Vector3 localPosition) {
             //Debug.Log(gameObject.name + " - OptionAnimator::_UpdateCursor(): Local Position = " + localPosition + " [" + MaskImage.transform.up + "]");
@@ -105,20 +119,16 @@ namespace RadialMenu {
             
 
         }
-
-        public void SetSelecting(bool isSelecting)
-        {
-            if (isSelecting)
-            {
-                //BackgroundColor
-            }
-        }
-
+        
         public bool Contains(Vector3 localPosition)
         {
+            if (!IsSelectable) return false;
+
             var localUp = (transform.localRotation * Vector3.up);
 
-            return (Mathf.Acos(Vector3.Dot(localPosition.normalized, -localUp)) < SegmentFillHalfangle);
+            //Debug.Log("Half Angle: " + (Mathf.Acos(Vector3.Dot(localPosition.normalized, -localUp)) * Mathf.Rad2Deg).ToString("N3") + " < " + SegmentFillHalfangle.ToString("N3"));
+
+            return (Mathf.Acos(Vector3.Dot(localPosition.normalized, -localUp)) * Mathf.Rad2Deg) < SegmentFillHalfangle;
         }
     }
 }
