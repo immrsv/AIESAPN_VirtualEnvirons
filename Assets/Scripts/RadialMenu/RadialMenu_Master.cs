@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using RadialMenu.ScriptedMenus;
+
 /// <summary>
 /// TODO:
 /// Preselect segment
@@ -106,7 +108,7 @@ namespace RadialMenu {
         [Header("Items")]
         public List<RadialMenu_MenuItem> RootItems;
 
-        protected Stack<RadialMenu_MenuItem> MenuStack = new Stack<RadialMenu_MenuItem>();
+        protected Stack<IRadialMenuContainer> MenuStack = new Stack<IRadialMenuContainer>();
         
         protected RadialMenu_MenuItem[] CurrentItems {
             get {
@@ -144,12 +146,12 @@ namespace RadialMenu {
             SelectedIndex = -1;
             MenuStack.Clear();
 
-            if (Cursor != null) Cursor.SetActive(true);
+            //if (Cursor != null) Cursor.SetActive(true);
 
-            Centre.SetActive(true);
+            //Centre.SetActive(true);
             for (var i = 0; i < Segments.Length; i++) {
                 if (Segments[i] == null) continue;
-                Segments[i].gameObject.SetActive(true);
+                //Segments[i].gameObject.SetActive(true);
             }
 
             transform.position = position;
@@ -198,7 +200,7 @@ namespace RadialMenu {
         void BuildSegments() {
 
             //var activeSegments = MenuStack.Count > 0 ? MenuStack.Peek().Children : RootItems;
-            var ShowPaging = CurrentItems.Length > 7;
+            var ShowPaging = false && CurrentItems.Length > 7;
 
             var SystemButtons = (ShowPaging ? 3 : 1);
 
@@ -212,6 +214,7 @@ namespace RadialMenu {
 
                 Segments[segmentIdx].gameObject.SetActive(true);
                 Segments[segmentIdx].transform.localRotation = Quaternion.Euler(0, 0, layout[segmentIdx].Rotation);
+                Segments[segmentIdx].Contents.transform.rotation = transform.rotation;
                 Segments[segmentIdx].SegmentFillAmount = layout[segmentIdx].Size / 360.0f;
 
                 if (layout[segmentIdx].SystemButton == SegmentSystemButton.Back) {
@@ -281,12 +284,12 @@ namespace RadialMenu {
                 SegmentsMaster.GetComponent<Mask>().enabled = true;
             })
             .setOnComplete(() => {
-                if (Cursor != null) Cursor.SetActive(false);
+                //if (Cursor != null) Cursor.SetActive(false);
 
-                Centre.SetActive(false);
+                //Centre.SetActive(false);
                 for (var i = 0; i < Segments.Length; i++) {
                     if (Segments[i] == null) continue;
-                    Segments[i].gameObject.SetActive(false);
+                    //Segments[i].gameObject.SetActive(false);
                 }
             });
         }
@@ -346,8 +349,14 @@ namespace RadialMenu {
             if (Segments[SelectedIndex].IsSelectable) {
 
                 Debug.Log("Selected: " + Segments[SelectedIndex].Item.name);
-                if (Segments[SelectedIndex].Item.Selected()) {
-                    MenuStack.Push(Segments[SelectedIndex].Item);
+
+                var actionable = Segments[SelectedIndex].Item as IRadialMenuAction;
+                if (actionable != null) actionable.PerformAction();
+
+                var submenu = Segments[SelectedIndex].Item as IRadialMenuContainer;
+                if (submenu != null && submenu.HasChildren) { 
+
+                    MenuStack.Push(submenu);
                     BuildSegments();
                 }
 
