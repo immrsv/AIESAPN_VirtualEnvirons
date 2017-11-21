@@ -14,12 +14,14 @@ public class ToolTips : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(tutorial)
+		if(tutorial == true)
         {
+            Debug.Log("tute true");
             ToolTipsHolder.SetActive(true);
         }
-        if(tutorial && MeasuringTool)
+        if(tutorial == true && MeasuringTool.activeSelf == true)
         {
+            Debug.Log("in measure mode");
             GripTT.SetActive(true);
         }
 	}
