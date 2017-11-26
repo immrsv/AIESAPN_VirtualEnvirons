@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class NodeTeleporting : MonoBehaviour {
     static List<NodeTeleporting> AllNodes = new List<NodeTeleporting>(); 
-    public string name;
-    public Sprite sprite; 
+
+    public string Name;
+    public Sprite Sprite; 
+
     //private SteamVR_Controller.Device Controller 
     //{
     //    get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -19,6 +21,7 @@ public class NodeTeleporting : MonoBehaviour {
     //        player.transform.position = transform.position;
     //    }
     //}
+
     private void Awake()
     {
         AllNodes.Add(this);

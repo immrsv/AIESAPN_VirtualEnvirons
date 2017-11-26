@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+using RadialMenu.ScriptedMenus;
+
 namespace RadialMenu {
     public class RadialMenu_SegmentAnimator : MonoBehaviour {
 
@@ -100,8 +102,7 @@ namespace RadialMenu {
             Contents.GetComponent<TextMeshProUGUI>().text = "--";
         }
 
-        private void Awake() {
-            Contents.transform.up = Vector3.up;
+        private void Update() {
         }
 
         void RM_UpdateCursor(Vector3 localPosition) {
