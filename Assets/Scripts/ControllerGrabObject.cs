@@ -63,6 +63,8 @@ public class ControllerGrabObject : MonoBehaviour {
         // 2
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
+
+        objectInHand.SendMessage("OnGrabStarted", SendMessageOptions.DontRequireReceiver);
     }
 
     // 3
@@ -87,6 +89,7 @@ public class ControllerGrabObject : MonoBehaviour {
             objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
         }
         // 4
+        objectInHand.SendMessage("OnGrabEnded", SendMessageOptions.DontRequireReceiver);
         objectInHand = null;
     }
 

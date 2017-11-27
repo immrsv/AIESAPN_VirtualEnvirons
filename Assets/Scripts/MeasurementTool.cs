@@ -24,6 +24,7 @@ public class MeasurementTool : MonoBehaviour {
     public Vector3 teleportReticleOffset;
     public LayerMask teleportMask;
 
+    public bool SnapToY = false;
 
     protected bool IsVisible = false;
 
@@ -38,6 +39,8 @@ public class MeasurementTool : MonoBehaviour {
         trackedController.Gripped += TrackedController_Gripped;
         trackedController.Ungripped += TrackedController_Ungripped;
     }
+
+    void ToggleSnap() { SnapToY = !SnapToY; }
 
     private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
     {
