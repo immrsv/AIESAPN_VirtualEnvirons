@@ -9,11 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdbb940dd3f5b2246895b5b792390d41, type: 3}
-  m_Name: Emotes
+  m_Name: Scene Hub
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  ObjectName: 
-  ActionName: 
-  Parameter: 
-  _Children:
-  - {fileID: 11400000, guid: 8d1cb2d715086be429c0d534a6669752, type: 2}
+  ObjectName: _System
+  ActionName: Toggle
+  Parameter: LoadConstruct
+  _Children: []
