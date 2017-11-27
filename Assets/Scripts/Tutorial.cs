@@ -6,6 +6,8 @@ using TMPro;
 public class Tutorial : MonoBehaviour {
     public TextMeshProUGUI TuteText;
     public GameObject MeasuringTool;
+    public GameObject RedOrb;
+    public GameObject GreenOrb;
     private int State = 0;
 
     public SteamVR_TrackedController trackedController;
@@ -23,25 +25,30 @@ public class Tutorial : MonoBehaviour {
 	void Update () {
         //Teach teleport
 
-        //switch (State) {
-        //    case 1:
-        //        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
-        //            ;
-        //        else if (MeasuringTool.activeSelf)
-        //               ;
-        //        break;
-        //    case 2:
-        //        break;
+        switch (State) {
+            case 1:
+                if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+                    TuteText.text = "Good Job! Now hold in the Menu button to bring up the menu";
+                break;
+            case 2:
+                if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+                    TuteText.text = "With the menu open select 'Measurement tool' and then 'toggle tool' to enable measuring tool";
+                else if (MeasuringTool.activeSelf)
+                    TuteText.text = "Use the grip button to place two measuring points";
+                break;
+            case 3:
 
-        //}
+                break;
+
+        }
 
 
-		if(State == 1 && Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+		if(State == 2 && Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
         {
             TuteText.text = "Select Measuring Tool option";
         }
-
-        if(State == 1 && MeasuringTool.activeSelf)
+        
+        if (State == 1 && MeasuringTool.activeSelf)
         {
             TuteText.text = "Press grip button to place two measuring points";
             State = 2;
