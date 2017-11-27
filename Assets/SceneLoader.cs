@@ -6,6 +6,8 @@ using System.IO;
 using System.Threading;
 using System.Linq;
 
+using RadialMenu.ScriptedMenus;
+
 
 public class SceneLoader : MonoBehaviour {
 
@@ -27,7 +29,7 @@ public class SceneLoader : MonoBehaviour {
 
     [Header("Radial Menu")]
     public RadialMenu.RadialMenu_Master Menu;
-    protected RadialMenu.ScriptedMenus.RadialMenu_MenuItem MenuItem;
+    protected RadialMenu_MenuItem MenuItem;
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +57,7 @@ public class SceneLoader : MonoBehaviour {
         }
 
         if (Menu != null) {
-            MenuItem = Instantiate(new RadialMenu.ScriptedMenus.RadialMenu_MenuItem());
+            MenuItem = ScriptableObject.CreateInstance<RadialMenu_MenuItem>();
             MenuItem.name = "Scenes...";
 
             Menu.RootItems.Add(MenuItem);
