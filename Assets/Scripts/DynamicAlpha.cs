@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DynamicAlpha : MonoBehaviour {
     public AnimationCurve Fade;
+
+    [Range(0, 1)]
+    public float MaxAlpha;
+
+    [Space]
     public Transform PlayerTransform;
 
 	// Use this for initialization
@@ -14,9 +19,10 @@ public class DynamicAlpha : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         var dist = (transform.position - PlayerTransform.position).magnitude;
-        var alpha = Fade.Evaluate(dist);
-        Color color = gameObject.GetComponent<Renderer>().material.color;
+        var alpha = Fade.Evaluate(dist) * MaxAlpha;
+        Color color = GetComponent<MeshRenderer>().material.color;
         color.a = alpha;
-        gameObject.GetComponent<Material>().SetColor("new Color", color);
+
+        GetComponent<MeshRenderer>().material.SetColor("_Color", color);
 	}
 }
