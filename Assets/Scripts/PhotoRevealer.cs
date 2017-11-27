@@ -5,8 +5,9 @@ using UnityEngine;
 public class PhotoRevealer : MonoBehaviour {
     public GameObject photo;
     public GameObject UIPrompt;
-    protected SteamVR_TrackedController trackedObj;
     private Renderer rend;
+    protected SteamVR_TrackedController trackedObj;
+    
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.controllerIndex); }
