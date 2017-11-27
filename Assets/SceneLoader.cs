@@ -7,6 +7,7 @@ using System.Threading;
 using System.Linq;
 
 using RadialMenu.ScriptedMenus;
+using UnityEngine.SceneManagement;
 
 
 public class SceneLoader : MonoBehaviour {
@@ -22,6 +23,8 @@ public class SceneLoader : MonoBehaviour {
     // Dictionary of Scene Names : bundle names
     protected Dictionary<string, string> Scenes = new Dictionary<string, string>();
     protected Dictionary<string, string> _Scan;
+
+    protected static Dictionary<string, AssetBundle> LoadedBundles = new Dictionary<string, AssetBundle>();
 
     protected Thread BackgroundScanThread;
 
@@ -101,7 +104,7 @@ public class SceneLoader : MonoBehaviour {
 
             foreach (var scene in scenes) {
                 Debug.Log("SceneLoader::BackgroundScan():\nFile[" + new FileInfo(file).Name + "] -> Scene[" + scene + "]");
-                results.Add(scene, file);
+                results.Add(scene, file.Replace(".manifest",""));
             }
 
         }
@@ -160,18 +163,37 @@ public class SceneLoader : MonoBehaviour {
 
     void LoadScene(string sceneName) {
 
+        
+        // Unload other scenes
+        if (SceneManager.sceneCount > 1 ) {
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1).name);
+        }
+
         if (!Scenes.ContainsKey(sceneName)) {
             Debug.LogError("Scene Loader::LoadScene(): Request scene (" + sceneName + ") not found!");
             return;
         }
 
-        var bundle = AssetBundle.LoadFromFile(BundleLocation + Scenes[sceneName]);
+        Debug.Log("Loading Scene: " + Scenes[sceneName]);
+
+        var bundleName = new FileInfo(Scenes[sceneName]).Name;
+
+        AssetBundle bundle = null;
+
+        if ( LoadedBundles.ContainsKey(bundleName)) {
+            bundle = LoadedBundles[bundleName];
+        }
+        else {
+            bundle = AssetBundle.LoadFromFile(Scenes[sceneName]);
+            LoadedBundles.Add(bundleName, bundle);
+        }
+
         if (bundle == null) {
             Debug.Log("Failed to load AssetBundle! (" + Scenes[sceneName] + ")");
             return;
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
     }
 }
