@@ -10,6 +10,8 @@ public class DoorOpener : MonoBehaviour {
     public Vector3 rotateOpen, rotateClose;
     bool isOpen = false;
 
+    int TweenId = -1;
+
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -17,17 +19,20 @@ public class DoorOpener : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
+        if (TweenId >= 0 && LeanTween.isTweening(TweenId)) return;
+
         trackedObj = other.GetComponent<SteamVR_TrackedObject>();
-        if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        if (trackedObj != null && Controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
+            
             if (isOpen == true)
             {
-                LeanTween.rotate(door, rotateClose, 1f);
+                TweenId = LeanTween.rotate(door, rotateClose, 1f).id;
                 isOpen = !isOpen;
             }
-            else if (isOpen == false)
+            else
             {
-                LeanTween.rotate(door, rotateOpen, 1f);
+                TweenId = LeanTween.rotate(door, rotateOpen, 1f).id;
                 isOpen = !isOpen;
             }
             

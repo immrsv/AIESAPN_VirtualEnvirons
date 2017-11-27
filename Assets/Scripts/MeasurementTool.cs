@@ -135,7 +135,7 @@ public class MeasurementTool : MonoBehaviour {
             distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
 
             var textPos = greenSphere.transform.position + (redSphere.transform.position - greenSphere.transform.position) / 2;
-            distanceText.transform.position = textPos + new Vector3(0, 2, 0);
+            distanceText.transform.position = textPos + new Vector3(0, 1, 0);
             distanceText.transform.forward = Camera.main.transform.forward;
             //distanceText.transform.up = Vector3.up;
             //RaycastHit hitInfo;
