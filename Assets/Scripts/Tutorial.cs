@@ -23,6 +23,19 @@ public class Tutorial : MonoBehaviour {
 	void Update () {
         //Teach teleport
 
+        //switch (State) {
+        //    case 1:
+        //        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        //            ;
+        //        else if (MeasuringTool.activeSelf)
+        //               ;
+        //        break;
+        //    case 2:
+        //        break;
+
+        //}
+
+
 		if(State == 1 && Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
         {
             TuteText.text = "Select Measuring Tool option";
