@@ -138,15 +138,15 @@ public class MeasurementTool : MonoBehaviour {
             distanceText.transform.position = textPos + new Vector3(0, 2, 0);
             distanceText.transform.forward = Camera.main.transform.forward;
             //distanceText.transform.up = Vector3.up;
-            RaycastHit hitInfo;
-            var direction = (distanceText.transform.position - Camera.main.transform.position).normalized;
-            if (Physics.Raycast(Camera.main.transform.position, direction, out hitInfo))
-            {
-                if (hitInfo.collider.gameObject != distanceText)
-                {
-                    distanceText.transform.position = Camera.main.transform.position + direction * hitInfo.distance *0.95f;
-                }
-            }
+            //RaycastHit hitInfo;
+            //var direction = (distanceText.transform.position - Camera.main.transform.position).normalized;
+            //if (Physics.Raycast(Camera.main.transform.position, direction, out hitInfo))
+            //{
+            //    if (hitInfo.collider.gameObject != distanceText)
+            //    {
+            //        distanceText.transform.position = Camera.main.transform.position + direction * hitInfo.distance *0.95f;
+            //    }
+            //}
         }
 
         
