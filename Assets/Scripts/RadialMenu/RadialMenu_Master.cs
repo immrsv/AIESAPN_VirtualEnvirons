@@ -391,7 +391,7 @@ namespace RadialMenu {
         }
         
         void _SystemBack() {
-            Debug.Log("RM System Back");
+            //Debug.Log("RM System Back");
             if ( MenuStack.Count > 0)
                 MenuStack.Pop();
 

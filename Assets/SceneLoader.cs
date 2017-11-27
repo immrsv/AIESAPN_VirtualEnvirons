@@ -12,7 +12,7 @@ using RadialMenu.ScriptedMenus;
 public class SceneLoader : MonoBehaviour {
 
     public string BundleLocation = @"C:/Users/EDATS VR/Desktop/AIE/Test Apps/Asset Bundles/";
-    public string BundleName;
+    //public string BundleName;
     // C:/Users/EDATS VR/Desktop/AIE/Test Apps/Asset Bundles
 
     FileSystemWatcher watcher;
@@ -25,14 +25,14 @@ public class SceneLoader : MonoBehaviour {
 
     protected Thread BackgroundScanThread;
 
-    protected bool IsScanRunning {  get { return BackgroundScanThread != null && BackgroundScanThread.IsAlive; } }
+    protected bool IsScanRunning { get { return BackgroundScanThread != null && BackgroundScanThread.IsAlive; } }
 
     [Header("Radial Menu")]
     public RadialMenu.RadialMenu_Master Menu;
     protected RadialMenu_MenuItem MenuItem;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
 
         //foreach ( var file in  Directory.GetFiles(BundleLocation, "*.manifest") ) {
         //    Debug.Log("File Dump: " + file);
@@ -52,7 +52,7 @@ public class SceneLoader : MonoBehaviour {
 
         watcher.EnableRaisingEvents = true;
 
-        if ( !Directory.Exists(BundleLocation )) {
+        if (!Directory.Exists(BundleLocation)) {
             Debug.LogError("Bundle Location Is Invalid: " + BundleLocation);
         }
 
@@ -64,7 +64,7 @@ public class SceneLoader : MonoBehaviour {
         }
 
 
-	}
+    }
 
     private void Watcher_OnRenamed(object sender, RenamedEventArgs e) {
         LocationDirty = true;
@@ -74,7 +74,7 @@ public class SceneLoader : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
 
         if (LocationDirty && !IsScanRunning) {
             BackgroundScanThread = new Thread(new ThreadStart(BackgroundScan));
@@ -84,54 +84,50 @@ public class SceneLoader : MonoBehaviour {
         if (_Scan != null) {
             TransferResults();
         }
-	}
+    }
 
 
     void BackgroundScan() {
         var results = new Dictionary<string, string>();
-        
+
         LocationDirty = false;
 
         var files = Directory.GetFiles(BundleLocation, "*.manifest");
 
-        foreach ( var file in files) {
+        foreach (var file in files) {
             if (string.IsNullOrEmpty(file)) continue;
 
             var scenes = ParseManifest(file);
 
             foreach (var scene in scenes) {
                 Debug.Log("SceneLoader::BackgroundScan():\nFile[" + new FileInfo(file).Name + "] -> Scene[" + scene + "]");
-                //results.Add(scene, file);
+                results.Add(scene, file);
             }
-            
+
         }
 
-        lock(_Scan) {
+        //lock (_Scan) {
             _Scan = results;
-        }
+        //}
     }
 
 
-    string[] ParseManifest(string manifestPath)
-    {
+    string[] ParseManifest(string manifestPath) {
         var lines = File.ReadAllLines(manifestPath);
 
         var insideSceneBlock = false;
 
         var results = new List<string>();
 
-        foreach ( var line in lines )
-        {
+        foreach (var line in lines) {
             var trimmedLine = line.Trim();
 
-            if (!insideSceneBlock)
-            {
+            if (!insideSceneBlock) {
                 if (trimmedLine.StartsWith("Assets:"))
                     insideSceneBlock = true;
                 continue;
             }
-            else
-            {
+            else {
                 if (!line.Trim().StartsWith("-"))
                     break;
 
@@ -144,7 +140,7 @@ public class SceneLoader : MonoBehaviour {
     }
 
     void TransferResults() {
-        lock (_Scan) {
+       // lock (_Scan) {
             Scenes = _Scan;
             _Scan = null;
 
@@ -159,10 +155,10 @@ public class SceneLoader : MonoBehaviour {
                     MenuItem.Children.Add(item);
                 }
             }
-        }
+        //}
     }
 
-    void LoadScene( string sceneName) {
+    void LoadScene(string sceneName) {
 
         if (!Scenes.ContainsKey(sceneName)) {
             Debug.LogError("Scene Loader::LoadScene(): Request scene (" + sceneName + ") not found!");

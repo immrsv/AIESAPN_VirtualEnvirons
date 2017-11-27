@@ -7,12 +7,14 @@ public class MirrorState : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable () {
 		foreach (var target in targets) {
+            if (!target) continue;
             target.SetActive(true);
         }
 	}
 
     void OnDisable() {
         foreach (var target in targets) {
+            if (!target) continue;
             target.SetActive(false);
         }
     }
