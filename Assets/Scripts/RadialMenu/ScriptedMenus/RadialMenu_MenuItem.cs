@@ -9,15 +9,7 @@ namespace RadialMenu.ScriptedMenus
     public class RadialMenu_MenuItem : ScriptableObject, IRadialMenuContainer, IRadialMenuAction
     {
 
-        public RadialMenu_MenuItem() {
-
-        }
-
-        public RadialMenu_MenuItem(System.Action actionOverride) {
-            ActionOverride = actionOverride;
-        }
-
-        protected System.Action ActionOverride;
+        public System.Action ActionOverride;
 
         [Header("Interface Options")]
         public UnityEngine.UI.Image Icon;
@@ -28,7 +20,7 @@ namespace RadialMenu.ScriptedMenus
         public string Parameter;
 
         [Header("Submenu")]
-        public List<RadialMenu_MenuItem> _Children;
+        public List<RadialMenu_MenuItem> _Children = new List<RadialMenu_MenuItem>();
         public List<RadialMenu_MenuItem> Children { get { return _Children; } }
 
         public bool HasChildren {  get { return _Children != null && _Children.Count > 0; } }

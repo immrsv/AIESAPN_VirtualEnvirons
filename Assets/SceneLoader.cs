@@ -62,6 +62,8 @@ public class SceneLoader : MonoBehaviour {
 
             Menu.RootItems.Add(MenuItem);
         }
+
+
 	}
 
     private void Watcher_OnRenamed(object sender, RenamedEventArgs e) {
@@ -150,8 +152,10 @@ public class SceneLoader : MonoBehaviour {
                 MenuItem.Children.Clear();
 
                 foreach (var scene in Scenes.Keys) {
-                    var item = new RadialMenu.ScriptedMenus.RadialMenu_MenuItem(() => { LoadScene(scene); });
+                    var item = ScriptableObject.CreateInstance<RadialMenu_MenuItem>();
                     item.name = scene;
+                    item.ActionOverride = () => { LoadScene(scene); };
+
                     MenuItem.Children.Add(item);
                 }
             }

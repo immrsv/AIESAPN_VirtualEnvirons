@@ -146,12 +146,12 @@ namespace RadialMenu {
             SelectedIndex = -1;
             MenuStack.Clear();
 
-            //if (Cursor != null) Cursor.SetActive(true);
+            if (Cursor != null) Cursor.SetActive(true);
 
-            //Centre.SetActive(true);
+            Centre.SetActive(true);
             for (var i = 0; i < Segments.Length; i++) {
                 if (Segments[i] == null) continue;
-                //Segments[i].gameObject.SetActive(true);
+                Segments[i].gameObject.SetActive(true);
             }
 
             transform.position = position;
@@ -284,12 +284,12 @@ namespace RadialMenu {
                 SegmentsMaster.GetComponent<Mask>().enabled = true;
             })
             .setOnComplete(() => {
-                //if (Cursor != null) Cursor.SetActive(false);
+                if (Cursor != null) Cursor.SetActive(false);
 
-                //Centre.SetActive(false);
+                Centre.SetActive(false);
                 for (var i = 0; i < Segments.Length; i++) {
                     if (Segments[i] == null) continue;
-                    //Segments[i].gameObject.SetActive(false);
+                    Segments[i].gameObject.SetActive(false);
                 }
             });
         }
@@ -348,8 +348,6 @@ namespace RadialMenu {
 
             if (Segments[SelectedIndex].IsSelectable) {
 
-                Debug.Log("Selected: " + Segments[SelectedIndex].Item.name);
-
                 var actionable = Segments[SelectedIndex].Item as IRadialMenuAction;
                 if (actionable != null) actionable.PerformAction();
 
@@ -373,15 +371,18 @@ namespace RadialMenu {
             RadialMenu_MenuItem result = null;
             switch (button) {
                 case SegmentSystemButton.Back:
-                    result = new RadialMenu_MenuItem(_SystemBack);
+                    result = ScriptableObject.CreateInstance<RadialMenu_MenuItem>();
+                    result.ActionOverride = _SystemBack;
                     result.name = "Back";
                     break;
                 case SegmentSystemButton.PageNext:
-                    result = new RadialMenu_MenuItem(_SystemPageNext);
+                    result = ScriptableObject.CreateInstance<RadialMenu_MenuItem>();
+                    result.ActionOverride = _SystemPageNext;
                     result.name = "Next";
                     break;
                 case SegmentSystemButton.PagePrev:
-                    result = new RadialMenu_MenuItem(_SystemPagePrev);
+                    result = ScriptableObject.CreateInstance<RadialMenu_MenuItem>();
+                    result.ActionOverride = _SystemPagePrev;
                     result.name = "Prev";
                     break;
 

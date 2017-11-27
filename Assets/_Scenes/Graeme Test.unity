@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1076,7 +1076,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
   m_AllowMSAA: 1
@@ -1703,7 +1703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   modelOverride: 
-  shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 3}
   verbose: 0
   createComponents: 1
   updateDynamically: 1
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   modelOverride: 
-  shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 3}
   verbose: 0
   createComponents: 1
   updateDynamically: 1
@@ -2056,6 +2056,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1326918812}
   - component: {fileID: 1326918811}
+  - component: {fileID: 1326918813}
+  - component: {fileID: 1326918814}
   m_Layer: 0
   m_Name: _System
   m_TagString: Untagged
@@ -2069,14 +2071,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1326918810}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07e97d20ba4ed104b97865a00529dcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BundleLocation: C:/Users/EDATS VR/Desktop/AIE/Test Apps/Asset Bundles/
   BundleName: 
-  Menu: {fileID: 0}
+  Menu: {fileID: 2085522170}
 --- !u!4 &1326918812
 Transform:
   m_ObjectHideFlags: 0
@@ -2090,6 +2092,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1326918813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1326918810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 428b90b594566a148ad74d9718ccd46e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Menu: {fileID: 2085522170}
+  RootItem: {fileID: 0}
+--- !u!114 &1326918814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1326918810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8737a7f19908daa49aab7b34d4e003de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Objects:
+  - {fileID: 241704155}
 --- !u!1001 &1530962221
 Prefab:
   m_ObjectHideFlags: 0
@@ -2509,7 +2537,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000693210235774, guid: 8020104187b98354cbfedd241306c247, type: 2}
       propertyPath: m_Name
-      value: Cube (3)
+      value: ToggleCube
       objectReference: {fileID: 0}
     - target: {fileID: 23971722244303670, guid: 8020104187b98354cbfedd241306c247,
         type: 2}
@@ -3668,7 +3696,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: 918d0cb618e4be345b2a9689d8cb81af, type: 2}
   - {fileID: 0}
-  - {fileID: 11400000, guid: 29385ef86a2e37c45b739bbeda15f012, type: 2}
+  - {fileID: 11400000, guid: 282d669db72131448a920dccbc449fa8, type: 2}
 --- !u!114 &2085522171
 MonoBehaviour:
   m_ObjectHideFlags: 0
