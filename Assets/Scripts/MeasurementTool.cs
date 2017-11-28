@@ -56,7 +56,7 @@ public class MeasurementTool : MonoBehaviour {
     private void OnEnable() {
         redSphere.SetActive(false);
         greenSphere.SetActive(false);
-
+        //TODO: turn off distance display and lines to ground
         sphereIndex = 0;
 
         MenuItem.name = "Turn Off";
@@ -64,6 +64,7 @@ public class MeasurementTool : MonoBehaviour {
 
     private void OnDisable() {
         MenuItem.name = "Turn On";
+        
     }
 
     private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
@@ -77,6 +78,7 @@ public class MeasurementTool : MonoBehaviour {
             //placing start
             redSphere.SetActive(true);
             redSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
+            //TODO: enable lines to ground and distance text
             //sphereIndex = 1;
         }
 
