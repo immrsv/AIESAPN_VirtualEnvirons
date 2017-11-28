@@ -50,14 +50,14 @@ public class Tutorial : MonoBehaviour {
         {
             TuteText.text = "Manually move the points with the Trigger";
         }
-        if() //you have moved a point
-        {
-            TuteText.text = "Go to the door and open it"; 
-        }
+        //if() //you have moved a point
+        //{
+        //    TuteText.text = "Go to the door and open it"; 
+        //}
 
-        if() //if door is opened
-        {
-            //Tell player to take a screenshot
-        }
+        //if() //if door is opened
+        //{
+        //    //Tell player to take a screenshot
+        //}
 	}
 }

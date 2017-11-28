@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 
 public class MeasurementTool : MonoBehaviour {
+    public RadialMenu.ScriptedMenus.RadialMenu_MenuItem MenuItem;
+
     public GameObject redSphere;
     public GameObject greenSphere;
     public LineRenderer distanceLine;
@@ -28,6 +30,8 @@ public class MeasurementTool : MonoBehaviour {
 
     protected bool IsVisible = false;
 
+    public int SphereCount {  get { return (redSphere.activeInHierarchy ? 1 : 0) + (greenSphere.activeInHierarchy ? 1 : 0); } }
+
     public SteamVR_TrackedController trackedController;
     private SteamVR_Controller.Device Controller
     {
@@ -40,7 +44,27 @@ public class MeasurementTool : MonoBehaviour {
         trackedController.Ungripped += TrackedController_Ungripped;
     }
 
+    void Start() {
+        laser = Instantiate(laserPrefab);
+        laserTransform = laser.transform;
+        reticle = Instantiate(teleportReticlePrefab);
+        teleportReticleTransform = reticle.transform;
+    }
+
     void ToggleSnap() { SnapToY = !SnapToY; }
+
+    private void OnEnable() {
+        redSphere.SetActive(false);
+        greenSphere.SetActive(false);
+
+        sphereIndex = 0;
+
+        MenuItem.name = "Turn Off";
+    }
+
+    private void OnDisable() {
+        MenuItem.name = "Turn On";
+    }
 
     private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
     {
@@ -51,16 +75,20 @@ public class MeasurementTool : MonoBehaviour {
         if (sphereIndex == 0)
         {
             //placing start
+            redSphere.SetActive(true);
             redSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
-            sphereIndex = 1;
+            //sphereIndex = 1;
         }
 
         else
         {
             //placing end
+            greenSphere.SetActive(true);
             greenSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
-            sphereIndex = 0;
+            //sphereIndex = 0;
         }
+
+        sphereIndex = (int) Mathf.Repeat(++sphereIndex, 2);
     }
 
     private void TrackedController_Gripped(object sender, ClickedEventArgs e)
@@ -90,12 +118,7 @@ public class MeasurementTool : MonoBehaviour {
     }
 
 
-    void Start () {
-        laser = Instantiate(laserPrefab);
-        laserTransform = laser.transform;
-        reticle = Instantiate(teleportReticlePrefab);
-        teleportReticleTransform = reticle.transform;
-    }
+
 
     float delay = 0.5f;
 

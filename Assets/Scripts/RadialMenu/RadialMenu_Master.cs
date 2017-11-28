@@ -355,10 +355,11 @@ namespace RadialMenu {
                 if (submenu != null && submenu.HasChildren) { 
 
                     MenuStack.Push(submenu);
-                    BuildSegments();
+                    
                 }
 
                 SelectedIndex = -1;
+                BuildSegments();
             }
 
             
