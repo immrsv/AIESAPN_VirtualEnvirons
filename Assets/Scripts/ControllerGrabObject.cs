@@ -35,7 +35,6 @@ public class ControllerGrabObject : MonoBehaviour {
         // 2
         collidingObject = col.gameObject;
 
-        StartCoroutine(PulseHaptics());
 
         
     }
@@ -50,6 +49,9 @@ public class ControllerGrabObject : MonoBehaviour {
     public void OnTriggerEnter(Collider other)
     {
         SetCollidingObject(other);
+
+
+        StartCoroutine(PulseHaptics());
     }
 
     // 2
