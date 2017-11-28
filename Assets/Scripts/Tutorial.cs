@@ -6,6 +6,11 @@ using TMPro;
 public class Tutorial : MonoBehaviour {
     public TextMeshProUGUI TuteText;
     public GameObject MeasuringTool;
+    public GameObject Door;
+    public GameObject RedOrb;
+    public GameObject GreenOrb;
+
+    private Vector3 DoorLocation;
     private int State = 0;
 
     public SteamVR_TrackedController trackedController;
@@ -16,48 +21,32 @@ public class Tutorial : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        DoorLocation = Door.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Teach teleport
 
-        //switch (State) {
-        //    case 1:
-        //        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
-        //            ;
-        //        else if (MeasuringTool.activeSelf)
-        //               ;
-        //        break;
-        //    case 2:
-        //        break;
+        switch (State) {
+            case 1:
+                if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+                    TuteText.text = "Good Job! Now hold in the Menu button to bring up the menu";
+                break;
+            case 2:
+                if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+                    TuteText.text = "With the menu open select 'Measurement tool' and then select 'turn on'";
+                else if (MeasuringTool.activeSelf)
+                    TuteText.text = "Use the grip button to place two measuring points";
+                break;
+            case 3:
+                if (GreenOrb.activeSelf && RedOrb.activeSelf)
+                    TuteText.text = "You can also move the points by going up to them and picking them up with a trigger. \n\n Next go to the door and open it";
+                break;
+            case 4:
+                if (Door.transform.position != DoorLocation)
+                    TuteText.text = "That is all of the base functionality! Open the menu and select a different scene to load it up to complete the tutorial";
+                break;
 
-        //}
-
-
-		if(State == 1 && Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
-        {
-            TuteText.text = "Select Measuring Tool option";
         }
-
-        if(State == 1 && MeasuringTool.activeSelf)
-        {
-            TuteText.text = "Press grip button to place two measuring points";
-            State = 2;
-        }
-        if(State == 2) //check if both points are active
-        {
-            TuteText.text = "Manually move the points with the Trigger";
-        }
-        //if() //you have moved a point
-        //{
-        //    TuteText.text = "Go to the door and open it"; 
-        //}
-
-        //if() //if door is opened
-        //{
-        //    //Tell player to take a screenshot
-        //}
 	}
 }
