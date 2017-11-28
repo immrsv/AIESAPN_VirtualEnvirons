@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class QuickTravel : MonoBehaviour {
 
     public Transform CameraRig;
+    public Transform Head;
     public RadialMenu.ScriptedMenus.RadialMenu_MenuItem MenuItem;
 
     public string TravelTag = "QuickTravel";
@@ -57,7 +58,11 @@ public class QuickTravel : MonoBehaviour {
             return;
         }
 
-        CameraRig.position = NamedNodes[name].position;
+        var difference = CameraRig.position - Head.position;
+       
+        difference.y = 0;
+
+        CameraRig.position = NamedNodes[name].position + difference;
     }
     
 }
