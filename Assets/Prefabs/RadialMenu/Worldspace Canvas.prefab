@@ -1129,9 +1129,10 @@ MonoBehaviour:
   - {fileID: 114177107167215036}
   SelectionThreshold: 0.55
   RootItems:
+  - {fileID: 11400000, guid: 7768116c982eccb4483f23c33d63ae73, type: 2}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 60fd01c176264d9488776b03435ff0bd, type: 2}
+  - {fileID: 11400000, guid: b9f9cf37f8eaf3c49a884a129ac9e50e, type: 2}
 --- !u!114 &114171935457411194
 MonoBehaviour:
   m_ObjectHideFlags: 1

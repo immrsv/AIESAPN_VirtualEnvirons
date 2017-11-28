@@ -16,8 +16,8 @@ public class QuickTravel : MonoBehaviour {
     protected Dictionary<string, Transform> NamedNodes = new Dictionary<string, Transform>();
 
     private void Awake() {
-        //SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-        //SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
     }
 
     private void Start() {

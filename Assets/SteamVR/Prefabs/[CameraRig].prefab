@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 54765730825085824}
   - component: {fileID: 114929351165890802}
   - component: {fileID: 114028333799745646}
+  - component: {fileID: 114830963959662064}
   m_Layer: 0
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -603,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07777f6421418fd4a933c3ef5438f9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserPrefab: {fileID: 1595145738540048, guid: e334256bcd81db844ae932a871fb6dd9,
+  laserPrefab: {fileID: 1522335766300746, guid: cd59605743fa7d546912e772d7feee5e,
     type: 2}
   cameraRigTransform: {fileID: 420908}
   teleportReticlePrefab: {fileID: 1457554131582714, guid: af481b7896fe80f43ae6273dc76a5a4d,
@@ -613,6 +614,9 @@ MonoBehaviour:
   teleportMask:
     serializedVersion: 2
     m_Bits: 256
+  TargetValid: {r: 1, g: 0.7241379, b: 0, a: 1}
+  TargetInvalid: {r: 1, g: 0.124, b: 0, a: 1}
+  RaycastIgnoresObstacles: 0
 --- !u!114 &114501977738728976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -632,6 +636,24 @@ MonoBehaviour:
   rig2DFallback: {fileID: 146900}
   audioListener: {fileID: 0}
   allowToggleTo2D: 1
+--- !u!114 &114830963959662064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7346a42905a29b347b1f492e8ad7b49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerIndex: 0
+  triggerPressed: 0
+  steamPressed: 0
+  menuPressed: 0
+  padPressed: 0
+  padTouched: 0
+  gripped: 0
 --- !u!114 &114899533551623324
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -32,6 +32,10 @@ public class LaserPointer : MonoBehaviour {
     // 8
     private bool shouldTeleport;
 
+    public Color TargetValid;
+    public Color TargetInvalid;
+    public bool RaycastIgnoresObstacles = false;
+
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -47,9 +51,9 @@ public class LaserPointer : MonoBehaviour {
         // 1
         laser.SetActive(true);
         // 2
-        laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitPoint, .5f);
+        laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hit.point, .5f);
         // 3
-        laserTransform.LookAt(hitPoint);
+        laserTransform.LookAt(hit.point);
         // 4
         laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
             hit.distance);
@@ -65,6 +69,9 @@ public class LaserPointer : MonoBehaviour {
         posns[1] = hit.point;
 
         lr.SetPositions(posns);
+
+        laser.GetComponent<MeshRenderer>().material.color = shouldTeleport ? TargetValid : TargetInvalid;
+        
     }
 
     private void Teleport()
@@ -100,18 +107,54 @@ public class LaserPointer : MonoBehaviour {
 
         if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
-            RaycastHit hit;
+            RaycastHit hitInfo;
+
+
+            bool hit;
+            bool hitValid = false;
+
+            if ( RaycastIgnoresObstacles)
+                hit = Physics.Raycast(trackedObj.transform.position, transform.forward, out hitInfo, 100, teleportMask);
+            else
+                hit = Physics.Raycast(trackedObj.transform.position, transform.forward, out hitInfo, 100.0f);
 
             // 2
-            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
+            if (hit) // Hit something
             {
-                hitPoint = hit.point;
-                ShowLaser(hit);
-                reticle.SetActive(true);
-                // 2
-                teleportReticleTransform.position = hitPoint + teleportReticleOffset;
-                // 3
-                shouldTeleport = true;
+                
+                if (((1 << hitInfo.transform.gameObject.layer) & teleportMask) != 0) {
+                    hitValid = true;
+
+                    // Hit 'can teleport' target
+                    hitPoint = hitInfo.point;
+
+                    shouldTeleport = true;
+
+                    ShowLaser(hitInfo);
+
+                    reticle.SetActive(true);
+                    // 2
+                    teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+                    // 3
+                }
+            }
+
+            if (!hitValid) {
+
+                //hitPoint = trackedObj.transform.TransformPoint(Vector3.forward * 300);
+                if (!hit) {
+                    var distance = 100;
+                    hitInfo.point = trackedObj.transform.TransformPoint(Vector3.forward * distance);
+                    hitInfo.distance = distance;
+                }
+
+
+                shouldTeleport = false;
+
+                ShowLaser(hitInfo);
+
+
+                reticle.SetActive(false);
             }
         }
         else // 3

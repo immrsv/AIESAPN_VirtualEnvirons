@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 54644137976689750}
   - component: {fileID: 114505746154363882}
   - component: {fileID: 114520504052567264}
+  - component: {fileID: 114552392246010666}
   m_Layer: 0
   m_Name: Green OuterSphere
   m_TagString: Untagged
@@ -182,6 +183,7 @@ GameObject:
   - component: {fileID: 54924151572152050}
   - component: {fileID: 114261994730530984}
   - component: {fileID: 114738684363585286}
+  - component: {fileID: 114749545889503624}
   m_Layer: 0
   m_Name: Red OuterSphere
   m_TagString: Untagged
@@ -615,6 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a930efddaf05ed34f809eca0d6803892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MenuItem: {fileID: 11400000, guid: 29385ef86a2e37c45b739bbeda15f012, type: 2}
   redSphere: {fileID: 1879373493245872}
   greenSphere: {fileID: 1154971961982160}
   distanceLine: {fileID: 120651135978838900}
@@ -630,6 +633,7 @@ MonoBehaviour:
   teleportMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  SnapToY: 0
   trackedController: {fileID: 0}
 --- !u!114 &114261994730530984
 MonoBehaviour:
@@ -686,6 +690,20 @@ MonoBehaviour:
     m_RotationOrder: 0
   MaxAlpha: 0.7
   PlayerTransform: {fileID: 0}
+--- !u!114 &114552392246010666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154971961982160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e611bc0d992524468a94fc9a4e3c326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Other: {fileID: 4167476590105758}
+  Tool: {fileID: 114180287331174454}
+  SnapDistance: 0.3
 --- !u!114 &114608023397279536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -829,6 +847,20 @@ MonoBehaviour:
     m_RotationOrder: 0
   MaxAlpha: 0.7
   PlayerTransform: {fileID: 0}
+--- !u!114 &114749545889503624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879373493245872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e611bc0d992524468a94fc9a4e3c326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Other: {fileID: 4594602057082232}
+  Tool: {fileID: 114180287331174454}
+  SnapDistance: 0.3
 --- !u!114 &114954718501518504
 MonoBehaviour:
   m_ObjectHideFlags: 1

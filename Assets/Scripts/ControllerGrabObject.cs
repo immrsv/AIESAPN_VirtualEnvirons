@@ -12,6 +12,9 @@ public class ControllerGrabObject : MonoBehaviour {
     // 2
     private GameObject objectInHand;
 
+    [Range(1,200)]
+    public int HapticPulseCount = 15;
+
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -31,6 +34,17 @@ public class ControllerGrabObject : MonoBehaviour {
         }
         // 2
         collidingObject = col.gameObject;
+
+        StartCoroutine(PulseHaptics());
+
+        
+    }
+
+    IEnumerator PulseHaptics() {
+        for (int i = 0; i < HapticPulseCount; i++) {
+            Controller.TriggerHapticPulse();
+            yield return new WaitForSecondsRealtime(0.001f);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
