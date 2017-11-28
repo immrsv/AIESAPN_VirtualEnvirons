@@ -64,6 +64,7 @@ namespace RadialMenu {
         public class MenuColors {
             public Color BackColor = Color.black;
             public Color HoverColor = Color.gray;
+            public Color SelectedColor = Color.green;
         }
 
         public float RevealDelay = 0.3f;
@@ -75,12 +76,18 @@ namespace RadialMenu {
         public GameObject Centre;
         public GameObject SegmentsMaster;
         public RadialMenu_SegmentAnimator[] Segments;
+        public RadialMenu_CentreAnimator CentreAnimator;
 
         public bool Visible { get { return Centre.activeSelf; } }
 
         [Header("Selection")]
+        [Tooltip("Percentage of Full Radius that a segment becomes selected at")]
         [Range(0, 1)]
-        public float SelectionThreshold;
+        public float SelectionThreshold = 0.66f;
+
+        [Tooltip("Percentage of Selection Radius that a selected segment is confirmed and activated")]
+        [Range(0, 1)]
+        public float ConfirmationThreshold = 0.75f;
 
         protected int _SelectedIndex;
         protected int SelectedIndex {
@@ -98,7 +105,10 @@ namespace RadialMenu {
                 if (_SelectedIndex >= 0 && _SelectedIndex < Segments.Length) {
                     //Segments[_SelectedIndex].SetSelecting(true);
                     SelectSegment(_SelectedIndex);
+                    CentreAnimator.IsConfirmVisible = true;
                 }
+                else
+                    CentreAnimator.IsConfirmVisible = false;
 
                 // TODO: Raise Selecting Index Changed
 
@@ -300,13 +310,13 @@ namespace RadialMenu {
         /// </summary>
         /// <param name="localPosition"></param>
         protected void TestSegments(Vector3 localPosition) {
-            if (localPosition.magnitude < SelectionThreshold) {
+            if (localPosition.magnitude < (SelectionThreshold * ConfirmationThreshold)) {
                 if (SelectedIndex >= 0 && SelectedIndex < Segments.Length) {
                     // Confirm Selection
                     ConfirmSegment();
                 }
             }
-            else {
+            else if (localPosition.magnitude >= SelectionThreshold) {
                 var hit = false;
                 for (var i = 0; i < Segments.Length; i++) {
                     hit = Segments[i].Contains(localPosition);
@@ -327,7 +337,7 @@ namespace RadialMenu {
         /// <param name="index"></param>
         protected void SelectSegment(int index) {
 
-            Segments[index].BackgroundColor = Color.green;
+            Segments[index].BackgroundColor = Colors.SelectedColor;
         }
 
 
@@ -337,7 +347,7 @@ namespace RadialMenu {
         /// <param name="index"></param>
         protected void DeselectSegment(int index) {
 
-            Segments[index].BackgroundColor = Color.black;
+            Segments[index].BackgroundColor = Colors.BackColor;
         }
 
 
