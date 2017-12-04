@@ -30,6 +30,8 @@ public class SceneLoader : MonoBehaviour {
 
     protected bool IsScanRunning { get { return BackgroundScanThread != null && BackgroundScanThread.IsAlive; } }
 
+    public bool UseAltSkyboxLoader;
+
     [Header("Radial Menu")]
     public RadialMenu.RadialMenu_Master Menu;
     protected RadialMenu_MenuItem MenuItem;
@@ -193,18 +195,7 @@ public class SceneLoader : MonoBehaviour {
             return;
         }
 
+        
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-
-        var objects = SceneManager.GetSceneByName(sceneName).GetRootGameObjects();
-
-        foreach (var obj in objects) {
-            var skybox = obj.GetComponentInChildren<Skybox>();
-            if ( skybox ) {
-
-                Camera.main.GetComponent<Skybox>().material = skybox.material;
-                break;
-            }
-        }
-
     }
 }

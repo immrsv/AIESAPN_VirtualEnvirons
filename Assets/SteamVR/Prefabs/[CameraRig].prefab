@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 11470538}
   - component: {fileID: 9213436}
   - component: {fileID: 114501977738728976}
+  - component: {fileID: 45662486368262898}
   m_Layer: 0
   m_Name: Camera (head)
   m_TagString: MainCamera
@@ -264,8 +265,8 @@ Camera:
   m_GameObject: {fileID: 155680}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.89705884, g: 0.9796878, b: 1, a: 0.697}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -539,6 +540,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146900}
   m_IsPrefabParent: 1
+--- !u!45 &45662486368262898
+Skybox:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155680}
+  m_Enabled: 0
+  m_CustomSkybox: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!54 &54535011616488490
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -665,6 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778e2971079a86244982b5a906d2e685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HapticPulseCount: 15
 --- !u!114 &114929351165890802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -676,3 +686,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778e2971079a86244982b5a906d2e685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HapticPulseCount: 15

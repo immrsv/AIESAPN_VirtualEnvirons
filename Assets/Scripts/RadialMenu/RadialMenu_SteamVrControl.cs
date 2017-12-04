@@ -36,7 +36,6 @@ namespace RadialMenu
             var forward = Camera.main.transform.forward;
             if (AlignToViewsphere)
             {
-                Debug.LogWarning(gameObject.name + " - PieMenu_MouseControl::Update(): AlignToViewsphere Not Implemented.");
                 forward = (position - Camera.main.transform.position).normalized;
             }
 

@@ -134,7 +134,8 @@ public class MeasurementTool : MonoBehaviour {
     private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
     {
         IsVisible = false;
-        ActivateMarker(NextMarker);        
+        if (shouldPlace)
+            ActivateMarker(NextMarker);        
     }
 
     private void TrackedController_Gripped(object sender, ClickedEventArgs e)
@@ -142,13 +143,14 @@ public class MeasurementTool : MonoBehaviour {
         IsVisible = true; 
     }
 
+    bool shouldPlace = false;
+
     private void ShowLaser(RaycastHit hit)
     {
         laser.SetActive(true);
         laserTransform.position = Vector3.Lerp(trackedController.transform.position, hit.point, .5f);
         laserTransform.LookAt(hit.point);
-        laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
-            hit.distance);
+        laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y, hit.distance);
 
 
         // Update Line Renderer Positions:
@@ -161,7 +163,7 @@ public class MeasurementTool : MonoBehaviour {
         posns[1] = hit.point;
 
         lr.SetPositions(posns);
-        laser.GetComponent<MeshRenderer>().material.color = IsVisible ? TargetValid : TargetInvalid;
+        laser.GetComponent<MeshRenderer>().material.color = shouldPlace ? TargetValid : TargetInvalid;
     }
 
 
@@ -178,10 +180,12 @@ public class MeasurementTool : MonoBehaviour {
 
             bool hitValid = false;
             RaycastHit hitInfo;
-            var hit = Physics.Raycast(trackedController.transform.position, transform.forward, out hitInfo, 100.0f);
+            var hit = Physics.Raycast(trackedController.transform.position, trackedController.transform.forward, out hitInfo, 100.0f);
             if (hit)
             {
                 hitValid = true;
+
+                shouldPlace = true;
 
                 hitPoint = hitInfo.point;
                 ShowLaser(hitInfo);
@@ -197,6 +201,8 @@ public class MeasurementTool : MonoBehaviour {
                     hitInfo.point = trackedController.transform.TransformPoint(Vector3.forward * distance);
                     hitInfo.distance = distance;
                 }
+
+                shouldPlace = false;
                 ShowLaser(hitInfo);
                 reticle.SetActive(false);
             }
@@ -206,6 +212,7 @@ public class MeasurementTool : MonoBehaviour {
         {
             laser.SetActive(false);
             reticle.SetActive(false);
+            shouldPlace = false;
         }
 
 
