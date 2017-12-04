@@ -4,7 +4,8 @@ using UnityEngine;
 using TMPro;
 
 public class Tutorial : MonoBehaviour {
-    public TextMeshProUGUI TuteText;
+    //public TextMeshProUGUI TuteText;
+    public TextMeshPro TuteText;
     public GameObject MeasuringTool;
     public GameObject Door;
     public GameObject RedOrb;
