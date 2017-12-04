@@ -196,6 +196,6 @@ public class SceneLoader : MonoBehaviour {
         }
 
         
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
     }
 }

@@ -117,17 +117,33 @@ public class MeasurementTool : MonoBehaviour {
 
         if ( marker == redSphere) {
             if (redVertical) redVertical.enabled = true;
-            if (distanceToGroundRed) distanceToGroundRed.enabled = true;
-        }
+            if (distanceToGroundRed) {
+                distanceToGroundRed.enabled = true;
+                distanceToGroundRed.text = "Red Y: " + redSphere.transform.position.y.ToString("N3");
+            }
+            }
 
         if ( marker == greenSphere) {
             if (greenVertical) greenVertical.enabled = true;
-            if (distanceToGroundGreen) distanceToGroundGreen.enabled = true; 
+            if (distanceToGroundGreen) {
+                distanceToGroundGreen.enabled = true;
+                distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
+            }
         }
 
         if ( SphereCount == 2) {
             if (distanceLine) distanceLine.enabled = true;
             if (DistancePanel) DistancePanel.SetActive(true);
+
+            distanceLine.SetPosition(0, redSphere.transform.localPosition);
+            distanceLine.SetPosition(1, greenSphere.transform.localPosition);
+
+            distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
+            distanceText.text = distance.ToString("N3") + "m";
+
+            var textPos = Vector3.Lerp(greenSphere.transform.position, redSphere.transform.position, 0.5f);
+            distanceText.transform.position = textPos + new Vector3(0, 1, 0);
+            
         }
     }
 
@@ -215,25 +231,8 @@ public class MeasurementTool : MonoBehaviour {
             shouldPlace = false;
         }
 
-
-        if (redSphere.activeSelf && greenSphere.activeSelf)
-        {
-            distanceLine.SetPosition(0, redSphere.transform.localPosition);
-            distanceLine.SetPosition(1, greenSphere.transform.localPosition);
-
-            distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
-            distanceText.text = distance.ToString("N3") + "m";
-            if (distanceToGroundRed)
-                distanceToGroundRed.text = "Red Y: " + redSphere.transform.position.y.ToString("N3");
-
-            if (distanceToGroundGreen)
-                distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
-
-            var textPos = greenSphere.transform.position + (redSphere.transform.position - greenSphere.transform.position) / 2;
-            distanceText.transform.position = textPos + new Vector3(0, 1, 0);
-            distanceText.transform.forward = Camera.main.transform.forward;
+       if (distanceText.isActiveAndEnabled) {
+            distanceText.transform.forward = (distanceText.transform.position - Camera.main.transform.position).normalized;
         }
-
-        
     }
 }
