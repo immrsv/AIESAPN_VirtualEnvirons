@@ -6,16 +6,30 @@ using TMPro;
 public class MeasurementTool : MonoBehaviour {
     public RadialMenu.ScriptedMenus.RadialMenu_MenuItem MenuItem;
 
+    
     public GameObject redSphere;
+    public LineRenderer redVertical;
+
     public GameObject greenSphere;
-    public LineRenderer distanceLine;
+    public LineRenderer greenVertical;
+
+    
     public float distance;
     private int sphereIndex;
 
+    [Space]
+    public GameObject HudPanel;
+    public GameObject DistancePanel;
     public TextMeshPro distanceText;
+    public LineRenderer distanceLine;
+
     public TextMeshProUGUI distanceToGroundRed;
     public TextMeshProUGUI distanceToGroundGreen;
+
+    [Space]
     public GameObject laserPrefab;
+    public Color TargetValid = Color.green;
+    public Color TargetInvalid = Color.red;
     private GameObject laser;
     private Transform laserTransform;
     private Vector3 hitPoint;
@@ -31,6 +45,16 @@ public class MeasurementTool : MonoBehaviour {
     protected bool IsVisible = false;
 
     public int SphereCount {  get { return (redSphere.activeInHierarchy ? 1 : 0) + (greenSphere.activeInHierarchy ? 1 : 0); } }
+
+    public GameObject NextMarker {
+        get {
+            var result = sphereIndex == 0 ? redSphere : greenSphere;
+
+            sphereIndex = (int)Mathf.Repeat(++sphereIndex, 2);
+
+            return result;
+        }
+    }
 
     public SteamVR_TrackedController trackedController;
     private SteamVR_Controller.Device Controller
@@ -49,48 +73,68 @@ public class MeasurementTool : MonoBehaviour {
         laserTransform = laser.transform;
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
+
+        ResetMarkers();
     }
 
     void ToggleSnap() { SnapToY = !SnapToY; }
 
     private void OnEnable() {
-        redSphere.SetActive(false);
-        greenSphere.SetActive(false);
+
         //TODO: turn off distance display and lines to ground
         sphereIndex = 0;
 
         MenuItem.name = "Turn Off";
+        ResetMarkers();
+
+        if (HudPanel) HudPanel.SetActive(true);
     }
 
     private void OnDisable() {
         MenuItem.name = "Turn On";
-        
+        ResetMarkers();
+
+        if (HudPanel) HudPanel.SetActive(false);
+    }
+
+    private void ResetMarkers() {
+        if (redSphere) redSphere.SetActive(false);
+        if (redVertical) redVertical.enabled = false;
+
+        if (greenSphere) greenSphere.SetActive(false);
+        if (greenVertical) greenVertical.enabled = false;
+
+        if (DistancePanel) DistancePanel.SetActive(false);
+        if (distanceToGroundRed) distanceToGroundRed.enabled = false;
+        if (distanceToGroundGreen) distanceToGroundGreen.enabled = false;
+        if (distanceLine) distanceLine.enabled = false;
+    }
+
+    void ActivateMarker(GameObject marker) {
+
+        if (marker) marker.SetActive(true);
+        if (marker) marker.transform.position = teleportReticleTransform.position - teleportReticleOffset;
+
+        if ( marker == redSphere) {
+            if (redVertical) redVertical.enabled = true;
+            if (distanceToGroundRed) distanceToGroundRed.enabled = true;
+        }
+
+        if ( marker == greenSphere) {
+            if (greenVertical) greenVertical.enabled = true;
+            if (distanceToGroundGreen) distanceToGroundGreen.enabled = true; 
+        }
+
+        if ( SphereCount == 2) {
+            if (distanceLine) distanceLine.enabled = true;
+            if (DistancePanel) DistancePanel.SetActive(true);
+        }
     }
 
     private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
     {
         IsVisible = false;
-
-        //Debug.Log("Trigger realsed");
-        //move spheres
-        if (sphereIndex == 0)
-        {
-            //placing start
-            redSphere.SetActive(true);
-            redSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
-            //TODO: enable lines to ground and distance text
-            //sphereIndex = 1;
-        }
-
-        else
-        {
-            //placing end
-            greenSphere.SetActive(true);
-            greenSphere.transform.position = teleportReticleTransform.position - teleportReticleOffset;
-            //sphereIndex = 0;
-        }
-
-        sphereIndex = (int) Mathf.Repeat(++sphereIndex, 2);
+        ActivateMarker(NextMarker);        
     }
 
     private void TrackedController_Gripped(object sender, ClickedEventArgs e)
@@ -101,8 +145,8 @@ public class MeasurementTool : MonoBehaviour {
     private void ShowLaser(RaycastHit hit)
     {
         laser.SetActive(true);
-        laserTransform.position = Vector3.Lerp(trackedController.transform.position, hitPoint, .5f);
-        laserTransform.LookAt(hitPoint);
+        laserTransform.position = Vector3.Lerp(trackedController.transform.position, hit.point, .5f);
+        laserTransform.LookAt(hit.point);
         laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
             hit.distance);
 
@@ -117,6 +161,7 @@ public class MeasurementTool : MonoBehaviour {
         posns[1] = hit.point;
 
         lr.SetPositions(posns);
+        laser.GetComponent<MeshRenderer>().material.color = IsVisible ? TargetValid : TargetInvalid;
     }
 
 
@@ -131,17 +176,29 @@ public class MeasurementTool : MonoBehaviour {
         if (IsVisible)
         {
 
-            //Debug.Log("holding trigger");
-            RaycastHit hit;
-            if (Physics.Raycast(trackedController.transform.position, trackedController.transform.forward, out hit, 100, teleportMask))
+            bool hitValid = false;
+            RaycastHit hitInfo;
+            var hit = Physics.Raycast(trackedController.transform.position, transform.forward, out hitInfo, 100.0f);
+            if (hit)
             {
-                //Debug.Log("If is triggering");
-                hitPoint = hit.point;
-                ShowLaser(hit);
+                hitValid = true;
+
+                hitPoint = hitInfo.point;
+                ShowLaser(hitInfo);
                 reticle.SetActive(true);
 
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+                
+            }
 
+            if (!hitValid) {
+                if (!hit) {
+                    var distance = 100;
+                    hitInfo.point = trackedController.transform.TransformPoint(Vector3.forward * distance);
+                    hitInfo.distance = distance;
+                }
+                ShowLaser(hitInfo);
+                reticle.SetActive(false);
             }
 
         }
@@ -168,16 +225,6 @@ public class MeasurementTool : MonoBehaviour {
             var textPos = greenSphere.transform.position + (redSphere.transform.position - greenSphere.transform.position) / 2;
             distanceText.transform.position = textPos + new Vector3(0, 1, 0);
             distanceText.transform.forward = Camera.main.transform.forward;
-            //distanceText.transform.up = Vector3.up;
-            //RaycastHit hitInfo;
-            //var direction = (distanceText.transform.position - Camera.main.transform.position).normalized;
-            //if (Physics.Raycast(Camera.main.transform.position, direction, out hitInfo))
-            //{
-            //    if (hitInfo.collider.gameObject != distanceText)
-            //    {
-            //        distanceText.transform.position = Camera.main.transform.position + direction * hitInfo.distance *0.95f;
-            //    }
-            //}
         }
 
         

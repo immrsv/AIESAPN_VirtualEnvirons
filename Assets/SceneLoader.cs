@@ -193,7 +193,18 @@ public class SceneLoader : MonoBehaviour {
             return;
         }
 
-        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+
+        var objects = SceneManager.GetSceneByName(sceneName).GetRootGameObjects();
+
+        foreach (var obj in objects) {
+            var skybox = obj.GetComponentInChildren<Skybox>();
+            if ( skybox ) {
+
+                Camera.main.GetComponent<Skybox>().material = skybox.material;
+                break;
+            }
+        }
 
     }
 }

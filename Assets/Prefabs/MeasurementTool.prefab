@@ -257,7 +257,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322549542630218}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0.51, z: 0.02}
+  m_LocalPosition: {x: 0, y: 0.51, z: 0.27}
   m_LocalScale: {x: 1.5316452, y: 1.0900002, z: 0.44069922}
   m_Children: []
   m_Father: {fileID: 224560710805673592}
@@ -619,10 +619,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuItem: {fileID: 11400000, guid: 29385ef86a2e37c45b739bbeda15f012, type: 2}
   redSphere: {fileID: 1879373493245872}
+  redVertical: {fileID: 120404545816756260}
   greenSphere: {fileID: 1154971961982160}
-  distanceLine: {fileID: 120651135978838900}
+  greenVertical: {fileID: 120592019625209298}
   distance: 0
+  HudPanel: {fileID: 0}
+  DistancePanel: {fileID: 1546960623707650}
   distanceText: {fileID: 114608023397279536}
+  distanceLine: {fileID: 120651135978838900}
   distanceToGroundRed: {fileID: 0}
   distanceToGroundGreen: {fileID: 0}
   laserPrefab: {fileID: 1522335766300746, guid: cd59605743fa7d546912e772d7feee5e,
