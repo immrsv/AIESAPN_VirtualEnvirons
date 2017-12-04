@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/VR Test Scene.unity
     guid: a7c5278141b6f0e45ad56d80a93d56d8
   - enabled: 1
-    path: Assets/_Scenes/TheConstruct.unity
-    guid: decb33c24d40e1842a8683be21708fc7
-  - enabled: 1
     path: Assets/Riley Test.unity
     guid: 01f23a99a0c403648afa5deaf5fb3b42
+  - enabled: 1
+    path: Assets/_Scenes/TheConstruct.unity
+    guid: decb33c24d40e1842a8683be21708fc7
