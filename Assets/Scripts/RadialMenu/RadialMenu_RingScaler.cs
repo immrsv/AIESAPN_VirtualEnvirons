@@ -9,6 +9,7 @@ public class RadialMenu_RingScaler : MonoBehaviour {
     public float EndScale = 0.5f;
 
     public float Duration = 2.0f;
+    public bool Loop = false;
 
     protected int TweenId = -1;
 
@@ -16,7 +17,7 @@ public class RadialMenu_RingScaler : MonoBehaviour {
         if (TweenId < 0 || !LeanTween.isTweening(TweenId))
             LeanTween.cancel(TweenId);
         
-        TweenId = LeanTween.value(gameObject, (value) => { transform.localScale = Vector3.one * value; }, StartScale, EndScale,  Duration).id;
+        //TweenId = LeanTween.value(gameObject, (value) => { transform.localScale = Vector3.one * value; }, StartScale, EndScale,  Duration).id;
         
     }
 
@@ -28,6 +29,7 @@ public class RadialMenu_RingScaler : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-
+        if (Loop && (TweenId < 0 || !LeanTween.isTweening(TweenId)))
+            TweenId = LeanTween.value(gameObject, (value) => { transform.localScale = Vector3.one * value; }, StartScale, EndScale, Duration).id;
     }
 }
