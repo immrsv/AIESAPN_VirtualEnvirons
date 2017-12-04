@@ -7,7 +7,7 @@ namespace RadialMenu {
 
 
         public GameObject Text;
-        public GameObject Rings;
+        public GameObject[] Rings;
 
         public bool IsConfirmVisible {
             get {
@@ -15,7 +15,10 @@ namespace RadialMenu {
             }
             set {
                 Text.SetActive(value);
-                Rings.SetActive(value);
+
+                foreach (var ring in Rings)
+                    if (ring != null)
+                        ring.SetActive(value);
             }
         }
     }

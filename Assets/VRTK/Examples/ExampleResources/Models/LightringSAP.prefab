@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4963639184297672}
   - component: {fileID: 33642728936641060}
   - component: {fileID: 23982039113852354}
+  - component: {fileID: 114906266230055476}
   m_Layer: 0
   m_Name: TexturedDisk
   m_TagString: Untagged
@@ -162,6 +163,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: https://stackoverflow.com/questions/17770555/how-to-check-if-a-point-is-inside-an-ellipsoid
+--- !u!114 &114906266230055476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1204951890629516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3759de6cf57b2f64c84d1ff354289957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectOntoPlane: 1
+  PlaneNormal: {x: 0, y: 1, z: 0}
 --- !u!222 &222919530159781368
 CanvasRenderer:
   m_ObjectHideFlags: 1
