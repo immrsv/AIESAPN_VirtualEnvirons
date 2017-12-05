@@ -17,7 +17,7 @@ public class SkyboxLoader : MonoBehaviour {
     }
 
     private void SceneManager_sceneUnloaded(Scene scene) {
-        Camera.main.GetComponent<Skybox>().material = DefaultSkybox;
+        //Camera.main.GetComponent<Skybox>().material = DefaultSkybox;
     }
 
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode) {

@@ -143,6 +143,7 @@ namespace RadialMenu {
 
         void Start() {
             Hide();
+
         }
 
 
@@ -355,23 +356,31 @@ namespace RadialMenu {
         /// 
         /// </summary>
         protected void ConfirmSegment() {
-
-            if (Segments[SelectedIndex].IsSelectable) {
-
-                var actionable = Segments[SelectedIndex].Item as IRadialMenuAction;
-                if (actionable != null) actionable.PerformAction();
-
-                var submenu = Segments[SelectedIndex].Item as IRadialMenuContainer;
-                if (submenu != null && submenu.HasChildren) { 
-
-                    MenuStack.Push(submenu);
-                    
-                }
-
-                SelectedIndex = -1;
-                BuildSegments();
+            if ( Mathf.Clamp(SelectedIndex, 0, Segments.Length) != SelectedIndex ) {
+                Debug.LogWarning("SelectedIndex Index Out of Range: " + SelectedIndex);
+                return;
             }
 
+            if (SelectedIndex == -1) return;
+
+            try {
+                if (Segments[SelectedIndex].IsSelectable) {
+
+                    var actionable = Segments[SelectedIndex].Item as IRadialMenuAction;
+                    if (actionable != null) actionable.PerformAction();
+
+                    var submenu = Segments[SelectedIndex].Item as IRadialMenuContainer;
+                    if (submenu != null && submenu.HasChildren) {
+
+                        MenuStack.Push(submenu);
+
+                    }
+
+                    SelectedIndex = -1;
+                    BuildSegments();
+                }
+            }
+            catch (Exception ex) { }
             
         }
 

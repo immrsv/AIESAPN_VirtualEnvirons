@@ -6,14 +6,14 @@ using TMPro;
 public class MeasurementTool : MonoBehaviour {
     public RadialMenu.ScriptedMenus.RadialMenu_MenuItem MenuItem;
 
-    
+
     public GameObject redSphere;
     public LineRenderer redVertical;
 
     public GameObject greenSphere;
     public LineRenderer greenVertical;
 
-    
+
     public float distance;
     private int sphereIndex;
 
@@ -44,7 +44,7 @@ public class MeasurementTool : MonoBehaviour {
 
     protected bool IsVisible = false;
 
-    public int SphereCount {  get { return (redSphere.activeInHierarchy ? 1 : 0) + (greenSphere.activeInHierarchy ? 1 : 0); } }
+    public int SphereCount { get { return (redSphere.activeInHierarchy ? 1 : 0) + (greenSphere.activeInHierarchy ? 1 : 0); } }
 
     public GameObject NextMarker {
         get {
@@ -57,13 +57,11 @@ public class MeasurementTool : MonoBehaviour {
     }
 
     public SteamVR_TrackedController trackedController;
-    private SteamVR_Controller.Device Controller
-    {
+    private SteamVR_Controller.Device Controller {
         get { return SteamVR_Controller.Input((int)trackedController.controllerIndex); }
     }
 
-    void Awake()
-    {
+    void Awake() {
         trackedController.Gripped += TrackedController_Gripped;
         trackedController.Ungripped += TrackedController_Ungripped;
     }
@@ -75,6 +73,12 @@ public class MeasurementTool : MonoBehaviour {
         teleportReticleTransform = reticle.transform;
 
         ResetMarkers();
+
+        UnityEngine.SceneManagement.SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
+    }
+
+    private void SceneManager_sceneUnloaded(UnityEngine.SceneManagement.Scene arg0) {
+        gameObject.SetActive(false);
     }
 
     void ToggleSnap() { SnapToY = !SnapToY; }
@@ -115,54 +119,30 @@ public class MeasurementTool : MonoBehaviour {
         if (marker) marker.SetActive(true);
         if (marker) marker.transform.position = teleportReticleTransform.position - teleportReticleOffset;
 
-        if ( marker == redSphere) {
+        if (marker == redSphere) {
             if (redVertical) redVertical.enabled = true;
-            if (distanceToGroundRed) {
-                distanceToGroundRed.enabled = true;
-                distanceToGroundRed.text = "Red Y: " + redSphere.transform.position.y.ToString("N3");
-            }
-            }
-
-        if ( marker == greenSphere) {
-            if (greenVertical) greenVertical.enabled = true;
-            if (distanceToGroundGreen) {
-                distanceToGroundGreen.enabled = true;
-                distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
-            }
+            if (distanceToGroundRed)distanceToGroundRed.enabled = true;
         }
 
-        if ( SphereCount == 2) {
-            if (distanceLine) distanceLine.enabled = true;
-            if (DistancePanel) DistancePanel.SetActive(true);
-
-            distanceLine.SetPosition(0, redSphere.transform.localPosition);
-            distanceLine.SetPosition(1, greenSphere.transform.localPosition);
-
-            distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
-            distanceText.text = distance.ToString("N3") + "m";
-
-            var textPos = Vector3.Lerp(greenSphere.transform.position, redSphere.transform.position, 0.5f);
-            distanceText.transform.position = textPos + new Vector3(0, 1, 0);
-            
+        if (marker == greenSphere) {
+            if (greenVertical) greenVertical.enabled = true;
+            if (distanceToGroundGreen) distanceToGroundGreen.enabled = true;
         }
     }
 
-    private void TrackedController_Ungripped(object sender, ClickedEventArgs e)
-    {
+    private void TrackedController_Ungripped(object sender, ClickedEventArgs e) {
         IsVisible = false;
         if (shouldPlace)
-            ActivateMarker(NextMarker);        
+            ActivateMarker(NextMarker);
     }
 
-    private void TrackedController_Gripped(object sender, ClickedEventArgs e)
-    {
-        IsVisible = true; 
+    private void TrackedController_Gripped(object sender, ClickedEventArgs e) {
+        IsVisible = true;
     }
 
     bool shouldPlace = false;
 
-    private void ShowLaser(RaycastHit hit)
-    {
+    private void ShowLaser(RaycastHit hit) {
         laser.SetActive(true);
         laserTransform.position = Vector3.Lerp(trackedController.transform.position, hit.point, .5f);
         laserTransform.LookAt(hit.point);
@@ -187,18 +167,16 @@ public class MeasurementTool : MonoBehaviour {
 
     float delay = 0.5f;
 
-	// Update is called once per frame
-	void Update () {
-        if ( delay > 0 ) { delay -= Time.deltaTime; return; }
+    // Update is called once per frame
+    void Update() {
+        if (delay > 0) { delay -= Time.deltaTime; return; }
 
-        if (IsVisible)
-        {
+        if (IsVisible) {
 
             bool hitValid = false;
             RaycastHit hitInfo;
             var hit = Physics.Raycast(trackedController.transform.position, trackedController.transform.forward, out hitInfo, 100.0f);
-            if (hit)
-            {
+            if (hit) {
                 hitValid = true;
 
                 shouldPlace = true;
@@ -208,7 +186,7 @@ public class MeasurementTool : MonoBehaviour {
                 reticle.SetActive(true);
 
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
-                
+
             }
 
             if (!hitValid) {
@@ -224,15 +202,37 @@ public class MeasurementTool : MonoBehaviour {
             }
 
         }
-        else
-        {
+        else {
             laser.SetActive(false);
             reticle.SetActive(false);
             shouldPlace = false;
         }
 
-       if (distanceText.isActiveAndEnabled) {
+        if (distanceText.isActiveAndEnabled) {
             distanceText.transform.forward = (distanceText.transform.position - Camera.main.transform.position).normalized;
+        }
+
+        if ( greenSphere.activeSelf) {
+            distanceToGroundGreen.text = "Green Y: " + greenSphere.transform.position.y.ToString("N3");
+        }
+
+        if ( redSphere.activeSelf) {
+            distanceToGroundRed.text = "Red Y: " + redSphere.transform.position.y.ToString("N3");
+        }
+
+        if (SphereCount == 2) {
+            if (distanceLine) distanceLine.enabled = true;
+            if (DistancePanel) DistancePanel.SetActive(true);
+
+            distanceLine.SetPosition(0, redSphere.transform.localPosition);
+            distanceLine.SetPosition(1, greenSphere.transform.localPosition);
+
+            distance = (redSphere.transform.position - greenSphere.transform.position).magnitude;
+            distanceText.text = distance.ToString("N3") + "m";
+
+            var textPos = Vector3.Lerp(greenSphere.transform.position, redSphere.transform.position, 0.5f);
+            distanceText.transform.position = textPos + new Vector3(0, 1, 0);
+
         }
     }
 }

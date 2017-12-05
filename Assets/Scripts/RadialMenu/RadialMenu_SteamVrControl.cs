@@ -47,20 +47,22 @@ namespace RadialMenu
         void Update()
         {
 
-            // Find position and direction in local space
-            var position = Menu.transform.InverseTransformPoint(TrackedController.transform.position);
-            var direction = Menu.transform.InverseTransformVector(TrackedController.transform.forward);
 
-            // Find 'elevation' of position over interaction plane, then find how many multiples of direction to zero it.
-            var steps = Mathf.Abs(position.z/direction.z);
-            
-
-            // Find ray intersect
-            var intersect = Vector3.ProjectOnPlane(position, Vector3.forward) + Vector3.ProjectOnPlane(direction * steps, Vector3.forward);
-            
 
             if (Menu.Visible)
             {
+                // Find position and direction in local space
+                var position = Menu.transform.InverseTransformPoint(TrackedController.transform.position);
+                var direction = Menu.transform.InverseTransformVector(TrackedController.transform.forward);
+
+                // Find 'elevation' of position over interaction plane, then find how many multiples of direction to zero it.
+                var steps = Mathf.Abs(position.z / direction.z);
+
+
+                // Find ray intersect
+                var intersect = Vector3.ProjectOnPlane(position, Vector3.forward) + Vector3.ProjectOnPlane(direction * steps, Vector3.forward);
+
+
                 Menu.UpdateCursor(Menu.transform.TransformPoint(intersect));
             }
 
