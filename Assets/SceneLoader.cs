@@ -30,11 +30,25 @@ public class SceneLoader : MonoBehaviour {
 
     protected bool IsScanRunning { get { return BackgroundScanThread != null && BackgroundScanThread.IsAlive; } }
 
-    public bool UseAltSkyboxLoader;
+    public Material DefaultSkybox;
 
     [Header("Radial Menu")]
     public RadialMenu.RadialMenu_Master Menu;
     protected RadialMenu_MenuItem MenuItem;
+
+    [Header("Loading Screen")]
+    public UnityEngine.UI.Image LoadingBg;
+    public TMPro.TextMeshProUGUI LoadingText;
+
+    public event System.Action<Scene> LoadedScene;
+    protected void RaiseLoadedScene(Scene scene) {
+        if (LoadedScene != null) LoadedScene(scene);
+    }
+
+    public event System.Action<Scene> UnloadedScene;
+    protected void RaiseUnloadedScene(Scene scene) {
+        if (LoadedScene != null) UnloadedScene(scene);
+    }
 
     // Use this for initialization
     void Start() {
@@ -68,6 +82,11 @@ public class SceneLoader : MonoBehaviour {
             Menu.RootItems.Add(MenuItem);
         }
 
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        Camera.main.GetComponent<Skybox>().material = DefaultSkybox;
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1) {
 
     }
 
@@ -165,15 +184,27 @@ public class SceneLoader : MonoBehaviour {
 
     void LoadScene(string sceneName) {
 
-        
+        Menu.Hide();
+
+        LoadingBg.enabled = true;
+        LoadingText.enabled = true;
+
+        StartCoroutine(CoLoader(sceneName));
+    }
+
+    IEnumerator CoLoader(string sceneName) {
+
         // Unload other scenes
-        if (SceneManager.sceneCount > 1 ) {
+        if (SceneManager.sceneCount > 1) {
+            Camera.main.GetComponent<Skybox>().material = DefaultSkybox;
+            var oldScene = SceneManager.GetSceneAt(1);
             SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1).name);
+            RaiseUnloadedScene(oldScene);
         }
 
         if (!Scenes.ContainsKey(sceneName)) {
             Debug.LogError("Scene Loader::LoadScene(): Request scene (" + sceneName + ") not found!");
-            return;
+            yield break;
         }
 
         Debug.Log("Loading Scene: " + Scenes[sceneName]);
@@ -182,20 +213,46 @@ public class SceneLoader : MonoBehaviour {
 
         AssetBundle bundle = null;
 
-        if ( LoadedBundles.ContainsKey(bundleName)) {
+        if (LoadedBundles.ContainsKey(bundleName)) {
             bundle = LoadedBundles[bundleName];
         }
         else {
-            bundle = AssetBundle.LoadFromFile(Scenes[sceneName]);
+            var bundleRequest = AssetBundle.LoadFromFileAsync(Scenes[sceneName]);
+            //bundle = AssetBundle.LoadFromFile(Scenes[sceneName]);
+
+            while (!bundleRequest.isDone)
+                yield return null;
+
+            bundle = bundleRequest.assetBundle;
             LoadedBundles.Add(bundleName, bundle);
         }
 
         if (bundle == null) {
             Debug.Log("Failed to load AssetBundle! (" + Scenes[sceneName] + ")");
-            return;
+            yield break;
         }
 
+
+        var loadRequest = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+        while (!loadRequest.isDone)
+            yield return null;
+
+        var scene = SceneManager.GetSceneByName(sceneName);
+        var objects = scene.GetRootGameObjects();
         
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        foreach (var obj in objects) {
+            var skybox = obj.GetComponentInChildren<Skybox>();
+            if (skybox != null && skybox.enabled & skybox.material != null) {
+
+                Camera.main.GetComponent<Skybox>().material = skybox.material;
+                break;
+            }
+        }
+
+        RaiseLoadedScene(scene);
+
+        LoadingBg.enabled = false;
+        LoadingText.enabled = false;
     }
 }

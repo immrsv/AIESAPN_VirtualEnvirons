@@ -35,6 +35,7 @@ public class LaserPointer : MonoBehaviour {
     public Color TargetValid;
     public Color TargetInvalid;
     public bool RaycastIgnoresObstacles = false;
+    public bool RecentreOnSceneChange = true;
 
     private SteamVR_Controller.Device Controller
     {
@@ -100,10 +101,17 @@ public class LaserPointer : MonoBehaviour {
         // 2
         teleportReticleTransform = reticle.transform;
 
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1) {
+        hitPoint = Vector3.zero;
+        Teleport();
+    }
+
+    // Update is called once per frame
+    void Update () {
 
         if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
