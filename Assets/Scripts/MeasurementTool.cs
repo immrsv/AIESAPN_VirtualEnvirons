@@ -74,7 +74,7 @@ public class MeasurementTool : MonoBehaviour {
 
         ResetMarkers();
 
-        UnityEngine.SceneManagement.SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
+        FindObjectOfType<SceneLoader>().UnloadedScene += SceneManager_sceneUnloaded;
     }
 
     private void SceneManager_sceneUnloaded(UnityEngine.SceneManagement.Scene arg0) {
